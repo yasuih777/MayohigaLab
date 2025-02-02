@@ -1,0 +1,12 @@
+---
+title: 記事
+date: 01-26-2025
+listing:
+    contents: "posts"
+    sort-ui: true
+    filter-ui: true
+    type: grid
+    categories: true
+    sort: "date"
+    fields: ["title", "author", "categories", "description", "date"]
+---

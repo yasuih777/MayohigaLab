@@ -22,10 +22,16 @@ website:
     logo: images/profile.png
     left: 
       - qmds/index.qmd
-      - qmds/books.qmd
+      - qmds/posts.qmd
       - qmds/about.qmd
       - qmds/contact.qmd
     tools:
+      - icon: github
+        menu:
+          - text: Source code
+            href: https://github.com/yasuih777/MayohigaLab
+          - text: Issues page
+            href: https://github.com/yasuih777/MayohigaLab/issues
   page-footer: Copyright 2025 
 
 title: Non title

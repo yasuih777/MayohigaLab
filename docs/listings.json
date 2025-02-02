@@ -1,8 +1,8 @@
 [
   {
-    "listing": "/qmds/books.html",
+    "listing": "/qmds/posts.html",
     "items": [
-      "/qmds/book/0001_docker_system.html"
+      "/qmds/posts/20250202_docker_system/index.html"
     ]
   }
 ]
