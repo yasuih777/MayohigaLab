@@ -1,3 +1,5 @@
+FILE=./qmds/
+
 .PHONY: docker_build
 docker_build:
 	docker compose up --build --remove-orphans
@@ -12,7 +14,7 @@ docker_clean:
 
 .PHONY: quarto_render
 quarto_render:
-	poetry run quarto render
+	poetry run quarto render ${FILE}
 
 .PHONY: lib_snapshot
 lib_snapshot:
