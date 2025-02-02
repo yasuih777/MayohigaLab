@@ -1,0 +1,17 @@
+# Quarto
+/.quarto/
+/_freeze/
+/_extensions/
+
+# R
+/.Rproj.user/
+.RData
+.Rhistory
+
+# Python
+/.venv/
+.jupyter_cache
+
+# Julia
+
+# hidden directory

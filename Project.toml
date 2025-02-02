@@ -1,0 +1,12 @@
+name = "src_jl"
+uuid = "4e06a53c-682f-493a-a82c-7b71301b8a10"
+authors = [""]
+version = "0.1.0"
+
+[deps]
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+
+[compat]
+IJulia = "1.26.0"
+Revise = "3.7.2"

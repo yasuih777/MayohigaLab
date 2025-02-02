@@ -1,0 +1,11 @@
+services:
+  web-source:
+    build: .
+    restart: always
+    volumes:
+      - ./:/web_source
+    working_dir: /web_source
+    expose:
+      - "7777"
+    command:
+      /bin/bash --login
