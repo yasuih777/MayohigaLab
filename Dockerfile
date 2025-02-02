@@ -1,5 +1,6 @@
 FROM ubuntu:latest
 
+# TODO: copy only use file for build environments
 COPY . /web_source/
 
 RUN apt update \
