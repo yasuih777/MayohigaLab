@@ -20,7 +20,6 @@ website:
     type: textbox
   navbar:
     logo: images/profile.png
-    logo-href: index.qmd
     left: 
       - qmds/index.qmd
       - qmds/books.qmd
