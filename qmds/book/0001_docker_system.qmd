@@ -1,0 +1,151 @@
+---
+title: QuartoでWebページを作る際のDocker構成について
+date: 02-02-2025
+image: true
+categories:
+    - Quarto
+    - Docker
+    - R
+    - Python
+    - Julia
+jupyter: python3
+---
+
+# 概要
+
+本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。
+
+- [DockerFile](https://github.com/yasuih777/MayohigaLab/blob/main/Dockerfile)
+- [dokcer-compose](https://github.com/yasuih777/MayohigaLab/blob/main/docker-compose.yml)
+
+# ツール
+
+::: {.callout-warning}
+前もってDocker CLIをインストールしておく。
+※ローカルのターミナル上で`docker`、`docker compose`が動作すれば良い。
+:::
+
+Quarto websiteを作る上で導入したツールは以下の4つ。
+
+- Quarto
+- +αでJupyterを動かす場合
+    - R
+    - Python
+    - Julia
+
+R, Python, Juliaの仮想環境は、公式がサポートしているものを使う。
+
+- R: renv
+- Python: venv
+    - Poetryを併用して仮想環境を作成する
+- Julia: Pkg
+
+::: {.callout-tip}
+データサイエンス用のプラットフォームであるCondaもQuarto上でサポートされているが、複数の言語を混ぜて使う際に激しめのコンフリクトを起こした。
+なので、今回はそれぞれの言語専用の仕組みを使用した。
+:::
+
+# Dockerfileの構成
+
+ベースイメージは`ubuntu`を使用する
+
+```{DockerFile}
+FROM ubuntu:latest
+```
+
+::: {.callout-tip}
+PythonやRを一気にビルドするベースイメージとして、`jupyter/datascience-notebook`がある。
+実際に試してみたが、Quartoと併用するときに上手く扱えなかった。
+そこで、まっさらな`ubuntu`イメージから愚直にインストールしていく構成をとった。
+:::
+
+renv, pyproject.toml, Project.tomlの構成をDocker内にコピーする。
+
+```{DockerFile}
+COPY . /web_source/
+```
+
+
+::: {.callout-caution}
+メモリの節約においては仮想環境用ファイル以外はコピーしなくてよいが、面倒なのでやっていない。今後のTODOとする。
+:::
+
+ubuntu側で必要なツールをインストールする。
+同時にRとPython(pip)をインストールする。
+
+```{DockerFile}
+RUN apt update \
+    && cd /web_source \
+    && apt install -y --no-install-recommends \
+        curl \
+        gdebi \
+        build-essential \
+        r-base \
+        pip \
+    && rm -rf /var/lib/apt/lists/* \
+```
+
+Rの仮想環境ビルドのため、renvをインストールする。
+加えて、仮想環境を再現する。
+
+```{DockerFile}
+# RUN
+   && Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org"); renv::restore(); renv::repair()' \
+```
+
+Pythonの仮想環境ビルドのため、Poetryをインストールする。
+加えて、仮想環境を再現する。
+
+```{DockerFile}
+# RUN
+    && pip install poetry --break-system-packages \
+    && poetry config --local virtualenvs.in-project true \
+    && poetry install \
+```
+
+Juliaをインストールする。
+加えて、仮想環境を再現する。
+
+```{DockerFile}
+# RUN
+    && curl -fsSL https://install.julialang.org | sh -s -- -y \
+    && /root/.juliaup/bin/julia --project=@. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()' \
+```
+
+::: {.callout-tip}
+Juliaダウンロード直後は`julia`コマンドが動かなかった(多分PATHの問題)ため、ファイルから実行している。
+:::
+
+Quartoをインストールする。  
+※インストーラーは最後に削除する。
+
+```{DockerFile}
+# RUN
+    && curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb \
+    && gdebi --non-interactive quarto-linux-amd64.deb \
+    && rm -rf quarto-linux-amd64.deb
+```
+
+この構成のDockerfileをbuildすることで、必要な環境が全て入ったDocker containerを作成できる。
+
+# docker-composeの構成
+
+特別な工夫はしておらず、Dockerに入ったときに作業中のディレクトリ(`web_source`)とローカルのディレクトリ構成をリンクさせる設定にしている。
+
+::: {.callout-caution}
+localhostをローカル側に移す方法がいまいち分からず、Docker内でのJupyter notebook起動やQuarto previewが出来ない。理解が進んだら修正する。
+:::
+
+# Docker内のQuarto環境
+
+`quarto check`で確認すると、Python, R, Julia全てが認識できている。  
+※Poetryをactivateしてから実行する。
+
+```{python}
+!poetry run quarto check
+```
+
+# 参考
+- [M2のMacにDockerとDocker Composeをインストールする](https://qiita.com/shimanuki-yu/items/5c5aaee333ed86ea07cb)
+- [社内のDockerfileのベストプラクティスを公開します](https://zenn.dev/forcia_tech/articles/20210716_docker_best_practice)
+- [Docker Composeについてざっくり理解する【概要 / ymlファイル書き方 / コマンド操作】](https://qiita.com/gon0821/items/77369def082745d19c38)

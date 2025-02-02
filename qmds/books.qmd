@@ -5,6 +5,6 @@ listing:
     contents:
         - "book/*.qmd"
     type: grid
-    categories: cloud
+    categories: true
     sort: "date"
 ---

@@ -79,9 +79,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -140,10 +140,10 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../qmds/index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../images/profile.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../qmds/index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">マヨヒガ研究所</span>
     </a>
   </div>
@@ -182,7 +182,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-cloud"></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RG9ja2Vy">Docker <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SnVsaWE=">Julia <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UXVhcnRv">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Ug==">R <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -206,7 +206,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2025-02-01</p>
+      <p class="date-modified">2025-02-02</p>
     </div>
   </div>
     
@@ -223,7 +223,46 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="UXVhcnRvJTJDRG9ja2VyJTJDUiUyQ1B5dGhvbiUyQ0p1bGlh" data-listing-date-sort="1738454400000" data-listing-file-modified-sort="1738506039900" data-listing-date-modified-sort="1738506046000" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
+<a href="../qmds/book/0001_docker_system.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+QuartoでWebページを作る際のDocker構成について
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('UXVhcnRv'); return false;">
+Quarto
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('RG9ja2Vy'); return false;">
+Docker
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('SnVsaWE='); return false;">
+Julia
+</div>
+</div>
+<div class="card-text listing-description">
+本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
 
+</div>
+<div class="listing-date">
+2025-02-02
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items
