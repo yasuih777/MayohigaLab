@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-02-02">
+<meta name="dcterms.date" content="2025-01-26">
 
-<title>QuartoでWebページを作る際のDocker構成について – マヨヒガ研究所</title>
+<title>記事 – マヨヒガ研究所</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,60 +21,28 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/profile.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0a42c5c7ba6c13cd9b2d23f80ebb7e6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/profile.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-listing/list.min.js"></script>
+<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0a42c5c7ba6c13cd9b2d23f80ebb7e6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -101,10 +69,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author','listing-description','listing-date',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../../styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -114,10 +140,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/profile.png" alt="" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/profile.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">マヨヒガ研究所</span>
     </a>
   </div>
@@ -128,19 +154,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../qmds/index.html"> 
+    <a class="nav-link" href="../qmds/index.html"> 
 <span class="menu-text">ホーム</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../qmds/books.html"> 
+    <a class="nav-link active" href="../qmds/posts.html" aria-current="page"> 
 <span class="menu-text">記事</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../qmds/about.html"> 
+    <a class="nav-link" href="../qmds/about.html"> 
 <span class="menu-text">管理者について</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../qmds/contact.html"> 
+    <a class="nav-link" href="../qmds/contact.html"> 
 <span class="menu-text">お問い合わせ</span></a>
   </li>  
 </ul>
@@ -155,33 +181,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#概要" id="toc-概要" class="nav-link active" data-scroll-target="#概要">概要</a></li>
-  <li><a href="#ツール" id="toc-ツール" class="nav-link" data-scroll-target="#ツール">ツール</a></li>
-  <li><a href="#dockerfileの構成" id="toc-dockerfileの構成" class="nav-link" data-scroll-target="#dockerfileの構成">Dockerfileの構成</a></li>
-  <li><a href="#docker-composeの構成" id="toc-docker-composeの構成" class="nav-link" data-scroll-target="#docker-composeの構成">docker-composeの構成</a></li>
-  <li><a href="#docker内のquarto環境" id="toc-docker内のquarto環境" class="nav-link" data-scroll-target="#docker内のquarto環境">Docker内のQuarto環境</a></li>
-  <li><a href="#参考" id="toc-参考" class="nav-link" data-scroll-target="#参考">参考</a></li>
-  </ul>
-</nav>
-    </div>
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RG9ja2Vy">Docker <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SnVsaWE=">Julia <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UXVhcnRv">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Ug==">R <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">QuartoでWebページを作る際のDocker構成について</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">Quarto</div>
-    <div class="quarto-category">Docker</div>
-    <div class="quarto-category">R</div>
-    <div class="quarto-category">Python</div>
-    <div class="quarto-category">Julia</div>
-  </div>
-  </div>
+<h1 class="title">記事</h1>
+</div>
 
 
 
@@ -191,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025-02-02</p>
+      <p class="date">2025-01-26</p>
     </div>
   </div>
   
@@ -209,220 +217,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="概要" class="level1">
-<h1>概要</h1>
-<p>本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。</p>
-<ul>
-<li><a href="https://github.com/yasuih777/MayohigaLab/blob/main/Dockerfile">DockerFile</a></li>
-<li><a href="https://github.com/yasuih777/MayohigaLab/blob/main/docker-compose.yml">dokcer-compose</a></li>
-</ul>
-</section>
-<section id="ツール" class="level1">
-<h1>ツール</h1>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>前もってDocker CLIをインストールしておく。 ※ローカルのターミナル上で<code>docker</code>、<code>docker compose</code>が動作すれば良い。</p>
-</div>
-</div>
-<p>Quarto websiteを作る上で導入したツールは以下の4つ。</p>
-<ul>
-<li>Quarto</li>
-<li>+αでJupyterを動かす場合
-<ul>
-<li>R</li>
-<li>Python</li>
-<li>Julia</li>
-</ul></li>
-</ul>
-<p>R, Python, Juliaの仮想環境は、公式がサポートしているものを使う。</p>
-<ul>
-<li>R: renv</li>
-<li>Python: venv
-<ul>
-<li>Poetryを併用して仮想環境を作成する</li>
-</ul></li>
-<li>Julia: Pkg</li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>データサイエンス用のプラットフォームであるCondaもQuarto上でサポートされているが、複数の言語を混ぜて使う際に激しめのコンフリクトを起こした。 なので、今回はそれぞれの言語専用の仕組みを使用した。</p>
-</div>
-</div>
-</section>
-<section id="dockerfileの構成" class="level1">
-<h1>Dockerfileの構成</h1>
-<p>ベースイメージは<code>ubuntu</code>を使用する</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>FROM ubuntu:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>PythonやRを一気にビルドするベースイメージとして、<code>jupyter/datascience-notebook</code>がある。 実際に試してみたが、Quartoと併用するときに上手く扱えなかった。 そこで、まっさらな<code>ubuntu</code>イメージから愚直にインストールしていく構成をとった。</p>
-</div>
-</div>
-<p>renv, pyproject.toml, Project.tomlの構成をDocker内にコピーする。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>COPY . /web_source/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>メモリの節約においては仮想環境用ファイル以外はコピーしなくてよいが、面倒なのでやっていない。今後のTODOとする。</p>
-</div>
-</div>
-<p>ubuntu側で必要なツールをインストールする。 同時にRとPython(pip)をインストールする。</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>RUN apt update \</span>
-<span id="cb3-2"><a href="#cb3-2"></a>    &amp;&amp; cd /web_source \</span>
-<span id="cb3-3"><a href="#cb3-3"></a>    &amp;&amp; apt install -y --no-install-recommends \</span>
-<span id="cb3-4"><a href="#cb3-4"></a>        curl \</span>
-<span id="cb3-5"><a href="#cb3-5"></a>        gdebi \</span>
-<span id="cb3-6"><a href="#cb3-6"></a>        build-essential \</span>
-<span id="cb3-7"><a href="#cb3-7"></a>        r-base \</span>
-<span id="cb3-8"><a href="#cb3-8"></a>        pip \</span>
-<span id="cb3-9"><a href="#cb3-9"></a>    &amp;&amp; rm -rf /var/lib/apt/lists/* \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Rの仮想環境ビルドのため、renvをインストールする。 加えて、仮想環境を再現する。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a># RUN</span>
-<span id="cb4-2"><a href="#cb4-2"></a>   &amp;&amp; Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org"); renv::restore(); renv::repair()' \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Pythonの仮想環境ビルドのため、Poetryをインストールする。 加えて、仮想環境を再現する。</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a># RUN</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    &amp;&amp; pip install poetry --break-system-packages \</span>
-<span id="cb5-3"><a href="#cb5-3"></a>    &amp;&amp; poetry config --local virtualenvs.in-project true \</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    &amp;&amp; poetry install \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Juliaをインストールする。 加えて、仮想環境を再現する。</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a># RUN</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    &amp;&amp; curl -fsSL https://install.julialang.org | sh -s -- -y \</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    &amp;&amp; /root/.juliaup/bin/julia --project=@. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()' \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Juliaダウンロード直後は<code>julia</code>コマンドが動かなかった(多分PATHの問題)ため、ファイルから実行している。</p>
-</div>
-</div>
-<p>Quartoをインストールする。<br>
-※インストーラーは最後に削除する。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a># RUN</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    &amp;&amp; curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb \</span>
-<span id="cb7-3"><a href="#cb7-3"></a>    &amp;&amp; gdebi --non-interactive quarto-linux-amd64.deb \</span>
-<span id="cb7-4"><a href="#cb7-4"></a>    &amp;&amp; rm -rf quarto-linux-amd64.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>この構成のDockerfileをbuildすることで、必要な環境が全て入ったDocker containerを作成できる。</p>
-</section>
-<section id="docker-composeの構成" class="level1">
-<h1>docker-composeの構成</h1>
-<p>特別な工夫はしておらず、Dockerに入ったときに作業中のディレクトリ(<code>web_source</code>)とローカルのディレクトリ構成をリンクさせる設定にしている。</p>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>localhostをローカル側に移す方法がいまいち分からず、Docker内でのJupyter notebook起動やQuarto previewが出来ない。理解が進んだら修正する。</p>
-</div>
-</div>
-</section>
-<section id="docker内のquarto環境" class="level1">
-<h1>Docker内のQuarto環境</h1>
-<p><code>quarto check</code>で確認すると、Python, R, Julia全てが認識できている。<br>
-※Poetryをactivateしてから実行する。</p>
-<div id="4e6578c4" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">!</span>poetry run quarto check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Quarto 1.6.40
-[✓] Checking environment information...
-      Quarto cache location: /root/.cache/quarto
-[✓] Checking versions of quarto binary dependencies...
-      Pandoc version 3.4.0: OK
-      Dart Sass version 1.70.0: OK
-      Deno version 1.46.3: OK
-      Typst version 0.11.0: OK
-[✓] Checking versions of quarto dependencies......OK
-[✓] Checking Quarto installation......OK
-      Version: 1.6.40
-      Path: /opt/quarto/bin
-
-[✓] Checking tools....................OK
-      TinyTeX: (not installed)
-      Chromium: (not installed)
-
-[✓] Checking LaTeX....................OK
-      Tex:  (not detected)
-
-(|) Checking basic markdown render....(/) Checking basic markdown render....(-) Checking basic markdown render....(\) Checking basic markdown render....(|) Checking basic markdown render....(/) Checking basic markdown render....(-) Checking basic markdown render....(\) Checking basic markdown render....(|) Checking basic markdown render....(/) Checking basic markdown render....(-) Checking basic markdown render....(\) Checking basic markdown render....(|) Checking basic markdown render....(/) Checking basic markdown render....(-) Checking basic markdown render....[✓] Checking basic markdown render....OK
-
-(|) Checking Python 3 installation....[✓] Checking Python 3 installation....OK
-      Version: 3.12.3
-      Path: /web_source/.venv/bin/python3
-      Jupyter: 5.7.2
-      Kernels: python3, julia-1.11
-
-(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....[✓] Checking Jupyter engine render....OK
-
-(|) Checking R installation...........(/) Checking R installation...........(-) Checking R installation...........(\) Checking R installation...........(|) Checking R installation...........(/) Checking R installation...........(-) Checking R installation...........(\) Checking R installation...........(|) Checking R installation...........(/) Checking R installation...........(-) Checking R installation...........(\) Checking R installation...........(|) Checking R installation...........(/) Checking R installation...........[✓] Checking R installation...........OK
-      Version: 4.3.3
-      Path: /usr/lib/R
-      LibPaths:
-        - /web_source/renv/library/R-4.3/x86_64-pc-linux-gnu
-        - /root/.cache/R/renv/sandbox/R-4.3/x86_64-pc-linux-gnu/9a444a72
-      knitr: 1.49
-      rmarkdown: 2.29
-
-(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......[✓] Checking Knitr engine render......OK
-</code></pre>
-</div>
-</div>
-</section>
-<section id="参考" class="level1">
-<h1>参考</h1>
-<ul>
-<li><a href="https://qiita.com/shimanuki-yu/items/5c5aaee333ed86ea07cb">M2のMacにDockerとDocker Composeをインストールする</a></li>
-<li><a href="https://zenn.dev/forcia_tech/articles/20210716_docker_best_practice">社内のDockerfileのベストプラクティスを公開します</a></li>
-<li><a href="https://qiita.com/gon0821/items/77369def082745d19c38">Docker Composeについてざっくり理解する【概要 / ymlファイル書き方 / コマンド操作】</a></li>
-</ul>
 
 
-</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section></div></main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+     </select>
+  </div>
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
+</div>
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="UXVhcnRvJTJDRG9ja2VyJTJDUiUyQ1B5dGhvbiUyQ0p1bGlh" data-listing-date-sort="1738454400000" data-listing-file-modified-sort="1738507989201" data-listing-date-modified-sort="1738508626000" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
+<a href="../qmds/posts/20250202_docker_system/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+QuartoでWebページを作る際のDocker構成について
+</h5>
+<div class="card-text listing-description">
+本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+
+</div>
+<div class="listing-date">
+2025-02-02
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -904,5 +756,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
