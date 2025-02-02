@@ -8,5 +8,5 @@ listing:
     type: grid
     categories: true
     sort: "date"
-    fields: ["title", "author", "description", "date"]
+    fields: ["title", "author", "categories", "description", "date"]
 ---
