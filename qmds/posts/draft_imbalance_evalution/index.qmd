@@ -1,0 +1,12 @@
+---
+title: ウイルス感染症の数理シミュレーション（基礎）
+date: 02-03-2025
+image: true
+categories:
+    - Python
+    - experiment
+notebook-view:
+  - notebook: experiment.ipynb
+    title: "補足資料"
+draft: true
+---

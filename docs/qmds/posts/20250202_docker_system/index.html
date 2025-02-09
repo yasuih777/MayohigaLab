@@ -213,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2025-02-02</p>
+      <p class="date-modified">2025-02-09</p>
     </div>
   </div>
     
@@ -244,7 +244,8 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>前もってDocker CLIをインストールしておく。 ※ローカルのターミナル上で<code>docker</code>、<code>docker compose</code>が動作すれば良い。</p>
+<p>前もってDocker CLIをインストールしておく。<br>
+※ローカルのターミナル上で<code>docker</code>、<code>docker compose</code>が動作すれば良い。</p>
 </div>
 </div>
 <p>Quarto websiteを作る上で導入したツールは以下の4つ。</p>
@@ -276,7 +277,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>データサイエンス用のプラットフォームであるCondaもQuarto上でサポートされているが、複数の言語を混ぜて使う際に激しめのコンフリクトを起こした。 なので、今回はそれぞれの言語専用の仕組みを使用した。</p>
+<p>データサイエンス用のプラットフォームであるCondaもQuarto上でサポートされているが、複数の言語を混ぜて使う際に激しめのコンフリクトを起こした。なので、今回はそれぞれの言語専用の仕組みを使用した。</p>
 </div>
 </div>
 </section>
@@ -294,7 +295,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>PythonやRを一気にビルドするベースイメージとして、<code>jupyter/datascience-notebook</code>がある。 実際に試してみたが、Quartoと併用するときに上手く扱えなかった。 そこで、まっさらな<code>ubuntu</code>イメージから愚直にインストールしていく構成をとった。</p>
+<p>PythonやRを一気にビルドするベースイメージとして、<code>jupyter/datascience-notebook</code>がある。 実際に試してみたが、Quartoと併用するときに上手く扱えなかった。そこで、まっさらな<code>ubuntu</code>イメージから愚直にインストールしていく構成をとった。</p>
 </div>
 </div>
 <p>renv, pyproject.toml, Project.tomlの構成をDocker内にコピーする。</p>
