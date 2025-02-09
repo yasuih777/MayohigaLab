@@ -1,0 +1,292 @@
+---
+title: ウイルス感染症の数理シミュレーション（基礎）
+date: 02-09-2025
+image: true
+categories:
+    - Julia
+    - Simulation
+notebook-view:
+  - notebook: simulation.ipynb
+    title: "補足資料"
+---
+
+
+ウイルス感染の数理シミュレーションをやってみる。ここでは基礎的な数理モデルを扱う。
+
+# 指数方程式
+
+まず、ウイルスと細胞間のシンプルな作用に関するモデルを仮定する。
+
+```{dot}
+//| fig-width: 8
+//| fig-height: 2
+
+digraph G {
+    graph [rankdir = TB]
+    V [label="Virus"];
+    Vout [label="", shape=point, color=none, width=0.01, height=0.01];
+    TC [label="Target cells"];
+    IC [label="Infected cells"];
+    conVTC2IC [label="", shape=point, color=none, width=0.01, height=0.01];
+
+    V -> conVTC2IC [arrowhead=none]
+    V -> Vout [label="removal"]
+    TC -> conVTC2IC [arrowhead=none]
+    conVTC2IC -> IC [label="infection"]
+    IC -> V [label = "production"]
+
+    {rank = min; V; Vout}
+    {rank = max; TC; IC; conVTC2IC}
+}
+```
+
+ウイルス感染のごく初期では体内のウイルス量が指数的に増加することが明らかになっている。時刻$t$におけるウイルス量を$V(t)$としたとき、@eq-expinc の微分方程式で記述でき、一般解も得られる。
+
+また、初期ウイルス量が2倍になるまでの時間を**倍化時間**$t_{D}=\log(2 / G)$という。
+
+- $V(t)$: ウイルス量
+- $G$: 正の定数で、ウイルスの増加率を表す
+
+$$
+\begin{align}
+&\frac{\partial V(t)}{\partial t} = G V(t) \\
+&V(t) = V(0) \exp(G t)
+\end{align}
+$$ {#eq-expinc}
+
+一方、ウイルス感染が十分に広がった後に抗ウイルス剤などでウイルスの増加を協力に抑制できたとき、ウイルスが死滅していくことでウイルス量が指数的に減少することが明らかになっている。このとき、@eq-expdec の微分方程式で記述でき、同様に一般解も得られる。
+
+また、初期ウイルス量が1/2倍になるまでの時間を**半減期**$t_{H}=\log(2 / D)$という。
+
+- $V(t)$: ウイルス量
+- $D$: 正の定数で、ウイルスの減少率を表す
+
+$$
+\begin{align}
+&\frac{\partial V(t)}{\partial t} = -D V(t) \\
+&V(t) = V(0) \exp(-D t)
+\end{align}
+$$ {#eq-expdec}
+
+また、放出されたウイルスが排除されるまでの平均滞在時間を**平均寿命**と定義し、方程式 @eq-lifespan で求められる。
+
+$$
+\int^{\infty}_{0} s \exp(-D s) ds = \frac{1}{D} \\
+$$ {#eq-lifespan}
+
+ウイルス量の増加(@eq-expinc )および減少(@eq-expdec )の指数方程式を描画すると、
+
+{{< embed simulation.ipynb#fig-exp >}}
+
+これらの指数方程式を利用することで、**線形回帰**によってウイルス動態のパラメータ推定を行うことができる。@eq-expdec を変形すると以下のようになり、$-D$が回帰係数、$V(0)$が切片に該当する。
+
+$$
+\log V(t) = \log V(0) - D t
+$$
+
+# ロジスティック方程式
+
+指数方程式ではウイルスと細胞間のシンプルな作用について考えた、ここでは細胞数に上限があり、ウイルスの増殖に制限がかかっているモデルを仮定する。実際は細胞が無限に存在することはないので、こちらの方がリアルな動態を仮定できる。
+
+```{dot}
+//| fig-width: 8
+//| fig-height: 2.5
+
+digraph G {
+    graph [rankdir = TB]
+    V [label="Virus"];
+    Vout [label="", shape=point, color=none, width=0.01, height=0.01];
+
+    subgraph cluster_cell {
+        label = "Cells size Limited";
+        labeljust="l";
+
+        TC [label="Target cells"];
+        IC [label="Infected cells"];
+        conVTC2IC [label="", shape=point, color=none, width=0.01, height=0.01];
+
+        {rank = same; TC; IC; conVTC2IC}
+    }
+
+    V -> conVTC2IC [arrowhead=none]
+    V -> Vout [label="removal"]
+    TC -> conVTC2IC [arrowhead=none]
+    conVTC2IC -> IC [label="infection"]
+    IC -> V [label = "production"]
+
+    {rank = same; V; Vout}
+}
+```
+
+ウイルスの増殖が進むにつれて標的となる細胞が減ってくるため、ウイルスの増殖速度が低下する。これを微分方程式で表現すると @eq-logit となり、**ロジスティック方程式**と呼ぶ。これも一般解が得られる。
+
+::: {.callout-tip}
+一般解を整理すると、ロジスティック関数が得られる。
+$$
+f(x) = \frac{1}{1 + \exp(-x)}
+$$
+:::
+
+- $V(t)$: ウイルス量
+- $G$: 正の定数で、内的自然増加率を表す
+- $K_{V}$: 正の定数で、環境収容力を表す
+    - 環境が維持できる最大ウイルス量
+
+$$
+\begin{align}
+&\frac{\partial V(t)}{\partial t} = G V(t) \left(1 - \frac{V(t)}{K_{V}} \right) \\
+&V(t) = \frac{V(0) K_{V} \exp(G t)}{K_{V} - V(0) + V(0) \exp(G t)}
+\end{align}
+$$ {#eq-logit}
+
+ウイルス量の動態 @eq-logit を描画すると、いずれの初期値でも環境収容力$K_{V}$に収束していく。
+
+{{< embed simulation.ipynb#fig-logit >}}
+
+# 線形微分方程式
+
+ロジスティック方程式によって細胞増殖に制限がかかるケースを考えた。今度は、別の視点として免疫系でウイルスが排除される、ウイルスが自然に死亡するなど、感染以外でウイルス量が増減するモデルを仮定する。
+
+```{dot}
+//| fig-width: 8
+//| fig-height: 2.5
+
+digraph G {
+    graph [rankdir = TB]
+    V [label="Virus(V)"];
+    Vout [label="", shape=point, color=none, width=0.01, height=0.01];
+    TC [label="Target cells(T)"];
+    IC [label="Infected cells(I)"];
+    ICout [label="", shape=point, color=none, width=0.01, height=0.01];
+    conVTC2IC [label="", shape=point, color=none, width=0.01, height=0.01];
+
+    V -> conVTC2IC [arrowhead=none]
+    V -> Vout [label="removal(c)"]
+    TC -> conVTC2IC [arrowhead=none]
+    conVTC2IC -> IC [label="infection(beta)"]
+    IC -> V [label = "production rate(p)"]
+    IC -> ICout [label = "mortality rate(delta)"]
+
+    {rank = min; V; Vout}
+    {rank = max; TC; IC; ICout; conVTC2IC}
+}
+```
+
+時間経過による動態が複数でありかつそれらが相互作用を持つ場合、モデルは連立微分方程式によって記述される。@eq-liner-simultaneous はウイルス量$V(t)$と感染細胞数$V(t)$のについて記述した方程式であり、特に線形結合のみなので**線形微分方程式**と呼ぶ。
+
+- $I(t)$: 感染細胞数
+- $V(t)$: ウイルス量
+- $T(0)$: 標的細胞数($t$に寄らず、初期値を維持すると仮定)
+- $p$: ウイルスの生産速度
+- $\delta$: 免疫による感染細胞の排除速度
+- $\beta$: ウイルスの感染率
+- $c$: 自然応答によるウイルスの排除速度
+
+$$
+\begin{align}
+&\frac{\partial I(t)}{\partial t} = \beta T(0) V(t) - \delta I(t) \\
+&\frac{\partial V(t)}{\partial t} = p I(t) - c V(t)
+\end{align}
+$$ {#eq-liner-simultaneous}
+
+これらパラメータにより以下の重要な指標が定義できる。
+
+- 平均的なウイルス産生期間: $1 / \delta$
+- 1つの感染細胞が生涯に生産するウイルス量: $p / \delta$
+    - **ウイルスバーストサイズ**と呼ぶ。薬剤効果の定量比較などに用いられる
+- ウイルスバーストサイズによって生み出される新たな感染細胞数: $R_{0} = \beta p T(0) / \delta c$
+    - **基本再生産数**と呼ぶ。1より大きいとウイルス感染が進み、1より小さければ進行しない
+    - 基本再生産数によって必要なウイルス阻害率を見積もることができる
+
+@eq-liner-simultaneous を行列に変換し、その固有値$\theta_{1}, \theta_{2}$を利用することで一般解 @eq-liner-simultaneous-solution を求めることができる。
+
+$$
+\begin{align}
+&\theta_{1} = \frac{-(\delta + c) + \sqrt{(\delta - c)^{2} + 4 \beta p T(0)}}{2} \\
+&\theta_{2} = \frac{-(\delta + c) - \sqrt{(\delta - c)^{2} + 4 \beta p T(0)}}{2} \\
+&I(t) = \frac{\beta T(0) V(0) - (\delta + \theta_{2}) I(0)}{\theta_{1} - \theta_{2}} (e^{\theta_{1} t} - e^{\theta_{2} t}) + I(0) e^{\theta_{2} t} \\
+&V(t) = \frac{p I(0) - (c + \theta_{2}) I(0)}{\theta_{1} - \theta_{2}} (e^{\theta_{1} t} - e^{\theta_{2} t}) + V(0) e^{\theta_{2} t} \\
+\end{align}
+$$ {#eq-liner-simultaneous-solution}
+
+基本再生産数$R0$が1より小さい場合$\theta_{1}, \theta_{2} < 0$なので$I(t), V(t)$はともに正に発散する、基本再生産数$R0$が1より大きい場合$\theta_{1} > 0, \theta_{2} < 0$なので$I(t), V(t)$はともに負に発散する。
+
+::: {.callout-tip title="マルサス係数"}
+加えて、固有値$\theta_{1}, \theta_{2}$の最大値($\theta_{1}$)を**マルサス係数**$M$と呼ぶ。マルサス係数が0より大きい場合力学系は正に発散し、マルサス係数が0より小さい場合力学系は負に発散する。
+:::
+
+これを描画すると、基本再生産数の条件によって感染細胞数とウイルス量の増減の向きが変わることが確認できる。
+
+{{< embed simulation.ipynb#fig-liner-simultaneous >}}
+
+::: {.callout-tip title="準定常状態近似"}
+通常、生体内においてはウイルス除去率$c$は感染細胞排除率$\delta$よりも十分に大きい$c \gg \delta$と仮定する。
+
+さらに、準定常状態$0 \simeq p I(t) - c V(t) \Rightarrow V(t) = p I(t) / c$においては、$\theta_{1} = p \beta T(0) / c - \delta$であり、以下のように変形できる。
+
+$$
+\frac{\partial V(t)}{\partial t} = \left( \frac{p \beta T(0)}{c} - \delta \right) V(t) \Rightarrow \frac{\partial V(t)}{\partial t} = M V(t)
+$$
+
+これは、@eq-expinc 、@eq-expdec である。このようにモデルを単純化することによって、多くの場合解釈性の高い考察を得ることができる。
+:::
+
+# 非線形微分方程式
+
+線形微分方程式によってウイルス量に感染細胞の相互作用を加え、動態がどうなるかを考えた。しかし、標的細胞については時間経過によらない過程を与えた単純なものであった。なので、標的細胞の相互作用も加えたより現実に近いモデルを仮定する。
+
+```{dot}
+//| fig-width: 8
+//| fig-height: 2.5
+
+digraph G {
+    graph [rankdir = TB]
+    V [label="Virus(V)"];
+    Vout [label="", shape=point, color=none, width=0.01, height=0.01];
+    TCout [label="", shape=point, color=none, width=0.01, height=0.01];
+    TC [label="Target cells(T)"];
+    IC [label="Infected cells(I)"];
+    ICout [label="", shape=point, color=none, width=0.01, height=0.01];
+    conVTC2IC [label="", shape=point, color=none, width=0.01, height=0.01];
+
+    V -> conVTC2IC [arrowhead=none]
+    V -> Vout [label="removal(c)"]
+    TC -> conVTC2IC [arrowhead=none]
+    TC -> TCout [label = "dead(d)"]
+    TCout -> TC [label = "product(lambda)"]
+    conVTC2IC -> IC [label="infection(beta)"]
+    IC -> V [label = "production rate(p)"]
+    IC -> ICout [label = "mortality rate(delta)"]
+
+    {rank = min; V; Vout; TCout}
+    {rank = max; TC; IC; ICout; conVTC2IC}
+}
+```
+
+このモデルは @eq-non-liner-simultaneous の連立微分方程式によって記述される。@eq-liner-simultaneous に標的細胞数$T(t)$を加えており、非線形項があるので**非線形微分方程式**と呼ぶ。
+
+- $T(t)$: 感染細胞数
+- $I(t)$: 感染細胞数
+- $V(t)$: ウイルス量
+- $\lambda$: 標的細胞の供給速度
+- $d$: 標的細胞の死亡速度
+- $p$: ウイルスの生産速度
+- $\delta$: 免疫による感染細胞の排除速度
+- $\beta$: ウイルスの感染率
+- $c$: 自然応答によるウイルスの排除速度
+
+$$
+\begin{align}
+&\frac{\partial T(t)}{\partial t} = \lambda - d T(t) - \beta T(t) V(t) \\
+&\frac{\partial I(t)}{\partial t} = \beta T(t) V(t) - \delta I(t) \\
+&\frac{\partial V(t)}{\partial t} = p I(t) - c V(t)
+\end{align}
+$$ {#eq-non-liner-simultaneous}
+
+非線形微分方程式はほぼ一般解を持たないので、これらの動態は逐次近似法によって計算する。計算結果を描画すると細胞・ウイルスについての動態が観察できる。
+
+{{< embed simulation.ipynb#fig-non-liner-simultaneous >}}
+
+# 参考
+- [ウイルス感染の数理モデルとシミュレーション](https://www.kyoritsu-pub.co.jp/book/b10044853.html)
+- [Overview of Julia's SciML/Build and run your first simulation with Julia's SciML](https://docs.sciml.ai/Overview/stable/getting_started/first_simulation/)

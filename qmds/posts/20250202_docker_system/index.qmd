@@ -21,7 +21,7 @@ jupyter: python3
 # ツール
 
 ::: {.callout-warning}
-前もってDocker CLIをインストールしておく。
+前もってDocker CLIをインストールしておく。  
 ※ローカルのターミナル上で`docker`、`docker compose`が動作すれば良い。
 :::
 
@@ -41,8 +41,7 @@ R, Python, Juliaの仮想環境は、公式がサポートしているものを�
 - Julia: Pkg
 
 ::: {.callout-tip}
-データサイエンス用のプラットフォームであるCondaもQuarto上でサポートされているが、複数の言語を混ぜて使う際に激しめのコンフリクトを起こした。
-なので、今回はそれぞれの言語専用の仕組みを使用した。
+データサイエンス用のプラットフォームであるCondaもQuarto上でサポートされているが、複数の言語を混ぜて使う際に激しめのコンフリクトを起こした。なので、今回はそれぞれの言語専用の仕組みを使用した。
 :::
 
 # Dockerfileの構成
@@ -55,8 +54,7 @@ FROM ubuntu:latest
 
 ::: {.callout-tip}
 PythonやRを一気にビルドするベースイメージとして、`jupyter/datascience-notebook`がある。
-実際に試してみたが、Quartoと併用するときに上手く扱えなかった。
-そこで、まっさらな`ubuntu`イメージから愚直にインストールしていく構成をとった。
+実際に試してみたが、Quartoと併用するときに上手く扱えなかった。そこで、まっさらな`ubuntu`イメージから愚直にインストールしていく構成をとった。
 :::
 
 renv, pyproject.toml, Project.tomlの構成をDocker内にコピーする。
