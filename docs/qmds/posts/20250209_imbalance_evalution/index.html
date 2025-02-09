@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-02-09">
 
-<title>Non title – マヨヒガ研究所</title>
+<title>不均衡データに対する二値分類評価指標の挙動 – マヨヒガ研究所</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -135,16 +164,41 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#評価指標" id="toc-評価指標" class="nav-link active" data-scroll-target="#評価指標">評価指標</a>
+  <ul class="collapse">
+  <li><a href="#混同行列" id="toc-混同行列" class="nav-link" data-scroll-target="#混同行列">混同行列</a></li>
+  <li><a href="#重要な指標" id="toc-重要な指標" class="nav-link" data-scroll-target="#重要な指標">重要な指標</a></li>
+  </ul></li>
+  <li><a href="#実験方法" id="toc-実験方法" class="nav-link" data-scroll-target="#実験方法">実験方法</a>
+  <ul class="collapse">
+  <li><a href="#仮想データ" id="toc-仮想データ" class="nav-link" data-scroll-target="#仮想データ">仮想データ</a></li>
+  <li><a href="#評価" id="toc-評価" class="nav-link" data-scroll-target="#評価">評価</a></li>
+  </ul></li>
+  <li><a href="#実験結果" id="toc-実験結果" class="nav-link" data-scroll-target="#実験結果">実験結果</a>
+  <ul class="collapse">
+  <li><a href="#roc-auc曲線pr-auc曲線の変化" id="toc-roc-auc曲線pr-auc曲線の変化" class="nav-link" data-scroll-target="#roc-auc曲線pr-auc曲線の変化">ROC-AUC曲線、PR-AUC曲線の変化</a></li>
+  <li><a href="#反復試行での各評価指標の比較" id="toc-反復試行での各評価指標の比較" class="nav-link" data-scroll-target="#反復試行での各評価指標の比較">反復試行での各評価指標の比較</a></li>
+  </ul></li>
+  <li><a href="#参考" id="toc-参考" class="nav-link" data-scroll-target="#参考">参考</a></li>
+  </ul>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="experiment-preview.html"><i class="bi bi-journal-code"></i>補足資料</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Non title</h1>
-</div>
+<h1 class="title">不均衡データに対する二値分類評価指標の挙動</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">Experiment</div>
+  </div>
+  </div>
 
 
 
@@ -172,8 +226,273 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>機械学習の二値分類問題において、教師データの陽性・陰性の割合が大きく異なっている<strong>不均衡データ</strong>がよく扱われる。不均衡データは予測を難しくすることは周知の事実だが、加えて様々な評価指標に対してもミスリーディングを生み出すことがある。<br>
+そこで、不均衡データに対する評価指標の挙動を確認していく。</p>
+<section id="評価指標" class="level1">
+<h1>評価指標</h1>
+<p>まずは、評価指標のおさらいから入る。</p>
+<section id="混同行列" class="level2">
+<h2 class="anchored" data-anchor-id="混同行列">混同行列</h2>
+<p>二値分類での評価指標の多くは<strong>混同行列(Confusion matrix)</strong>を用いて算出されている <a href="#tbl-cm" class="quarto-xref">Table&nbsp;1</a> 。混同行列は教師データのラベルおよび予測モデルによるラベルの二軸で解析集団のクロス集計をとった行列のことである。</p>
+<p>行列の各要素にはそれぞれ定義がされており、教師データに対して予測モデルが正しく予測できたかどうかがカウントされている。</p>
+<ul>
+<li><strong>TP</strong>: 陽性と予測して、真に陽性だった数</li>
+<li><strong>FP</strong>: 陽性と予測して、真は陰性だった数</li>
+<li><strong>FN</strong>: 陰性と予測して、真は陽性だった数</li>
+<li><strong>TN</strong>: 陰性と予測して、真に陰性だった数</li>
+</ul>
+<div id="tbl-cm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: 混同行列
+</figcaption>
+<div aria-describedby="tbl-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th colspan="2" rowspan="2"></th>
+<th colspan="2">Actual</th>
+</tr>
+<tr class="even">
+<th>(+)</th>
+<th>(-)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="2">predict</td>
+<td>(+)</td>
+<td>TP</td>
+<td>FP</td>
+</tr>
+<tr class="even">
+<td>(-)</td>
+<td>FN</td>
+<td>TN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="重要な指標" class="level2">
+<h2 class="anchored" data-anchor-id="重要な指標">重要な指標</h2>
+<p>二値分類においてよく使われる指標は <a href="#tbl-es" class="quarto-xref">Table&nbsp;2</a> である。一般的にはROC-AUC、F1-scoreをそのモデルの総合的な評価として用いることが多い。</p>
+<div id="tbl-es" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-es-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: 二値分類の評価指標一覧
+</figcaption>
+<div aria-describedby="tbl-es-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">指標</th>
+<th style="text-align: left;">記号</th>
+<th style="text-align: left;">数式</th>
+<th style="text-align: left;">意味</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">正答率</td>
+<td style="text-align: left;">Accuracy</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP + TN}{TP + FP + FN + TN}\)</span></td>
+<td style="text-align: left;">正しく予測できた割合</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">適合率・陽性的中率</td>
+<td style="text-align: left;">Precision, PPV</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FP}\)</span></td>
+<td style="text-align: left;">陽性と予測した中で正しく予測できた割合</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">陰性的中率</td>
+<td style="text-align: left;">NPV</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TN}{FN + TN}\)</span></td>
+<td style="text-align: left;">陰性と予測した中で正しく予測できた割合</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">真陽性率・再現率・感度</td>
+<td style="text-align: left;">Recall, Sensitivity, TPR</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FN}\)</span></td>
+<td style="text-align: left;">真に陽性群の内、正しく予測できた割合</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">真陰性率・特異度</td>
+<td style="text-align: left;">Specificity, TNR</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TN}{FP + TN}\)</span></td>
+<td style="text-align: left;">真に陰性群の内、正しく予測できた割合</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F1-score</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="math inline">\(\frac{2 TP}{2 TP + FP + FN}\)</span></td>
+<td style="text-align: left;">陽性的中率と感度の調和平均</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">マシューズ相関係数</td>
+<td style="text-align: left;">MCC</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP \times TN - FP \times FN}{\sqrt{(TP + FP) (TP + FN) (TN + FP) (TN + FN)}}\)</span></td>
+<td style="text-align: left;">不均衡データに対して有効とされている教師データと予測モデル間の相関係数</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">G-mean</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="math inline">\(\sqrt{TPR \times TNR}\)</span></td>
+<td style="text-align: left;">感度と特異度の幾何平均</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ROC-AUC</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">TPR, FPR(偽陽性率)の関係性を曲線にし、その面積をとったもの</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PR-AUC</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">感度・陽性的中率の関係性を曲線にし、その面積をとったもの</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="実験方法" class="level1">
+<h1>実験方法</h1>
+<section id="仮想データ" class="level2">
+<h2 class="anchored" data-anchor-id="仮想データ">仮想データ</h2>
+<p>仮想データは乱数生成によって作成したデータを用いる。二値分類の予測値<span class="math inline">\(y\)</span>はロジスティック関数が絡んでいることが多いため、<span class="math inline">\(y\)</span>はベータ分布に従うと仮定する。</p>
+<p><span class="math display">\[
+y \sim Beta(\alpha, \beta)
+\]</span></p>
+<p>ベータ分布について、真に陽性群のパラメータを<span class="math inline">\((\alpha, \beta) = (5, 3)\)</span>、真に陰性群のパラメータを<span class="math inline">\((\alpha, \beta) = (3, 5)\)</span>とする。<br>
+※均衡データに対してROC-AUCが0.85程度になるように調整した。</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-data-distribution" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-data-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-data-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/experiment-fig-data-distribution-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: 仮想データの母集団分布
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>サンプルサイズは10,000で、陽性と陰性の比率については、陽性の割合を<span class="math inline">\({ \{ 0.5, 0.4, 0.3, 0.2, 0.1, 0.01 \} }\)</span>の6パターンに分けて実験する。</p>
+</section>
+<section id="評価" class="level2">
+<h2 class="anchored" data-anchor-id="評価">評価</h2>
+<p>評価指標 <a href="#tbl-es" class="quarto-xref">Table&nbsp;2</a> の内ROC-AUCとPR-AUC以外は混同行列を基準に算出するため、予測値<span class="math inline">\(y\)</span>を陽性 or 陰性に振り分ける閾値を定義する必要がある。母集団分布上では一律に0.5としても良さそうだが、今回は<strong>Youden Index</strong>によって閾値を決める。</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Youden Index">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Youden Index
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Youden Index</strong>とは、ROC-AUC曲線上で対角線の間の垂直距離が最大になる閾値のことである。これを用いることで感度・特異度がともに高い閾値を選ぶことができる。</p>
+<p><span class="math display">\[
+\max_{threshold} 感度 + 特異度 - 1
+\]</span></p>
+</div>
+</div>
+<p>データ生成→評価指標算出のプロセスを100回行い、それらの振る舞いを評価する。</p>
+</section>
+</section>
+<section id="実験結果" class="level1">
+<h1>実験結果</h1>
+<section id="roc-auc曲線pr-auc曲線の変化" class="level2">
+<h2 class="anchored" data-anchor-id="roc-auc曲線pr-auc曲線の変化">ROC-AUC曲線、PR-AUC曲線の変化</h2>
+<p>まずは、1回の試行での仮想データを使ってROC-AUC曲線およびPR-AUC曲線を確認した。これを見ると、ROC-AUC曲線は不均衡具合が強くなっても大きく指標が変化しない。一方で、PR-AUC曲線は不均衡具合が強くなると曲線も大きく歪むことが見てとれる。</p>
+<p>このことから、以下のことが言える。 - ROC-AUC曲線は教師データのバランスには言及せずに、あくまで予測モデルが正しく推論できたかを重視している - PR-AUC曲線は不均衡データになると、予測値の分布が同じでも精度が落ちる</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-auc-curve" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div id="fig-auc-curve" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-auc-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/experiment-fig-auc-curve-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-auc-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: 左から予測値の分布、ROC-AUC曲線、PR-AUC曲線と並べている。真に陽性群の割合は縦で変えており、上から[0.5, 0.4, 0.3, 0.2, 0.1, 0.01]である。分布の赤は真に陽性群、青は真に陰性群を表している。
+</figcaption>
+</figure>
+</div>
+</div>
+<p>仮想データによる分布、ROC-AUC曲線、PR-AUC曲線</p>
+</div>
+</div>
+</section>
+<section id="反復試行での各評価指標の比較" class="level2">
+<h2 class="anchored" data-anchor-id="反復試行での各評価指標の比較">反復試行での各評価指標の比較</h2>
+<p>各評価指標を仮想データから算出し、その分布を比較する。大きく分けると以下の3つの挙動が見える</p>
+<ul>
+<li>中央値はそこまで変わらないが、分散が大きくなる
+<ul>
+<li>Accuracy, Sensitivity, Specificity, ROC-AUC</li>
+</ul></li>
+<li>精度が著しく悪化する
+<ul>
+<li>PPV, F1-score, MCC, PR-AUC</li>
+</ul></li>
+<li>精度が著しく良化する
+<ul>
+<li>NPV, G-mean</li>
+</ul></li>
+</ul>
+<p>PPV, NPVについては、真に陰性群の割合を下げていくと↑の関係が逆転すると思われる。G-meanに関しては感度、特異度の分散が上昇したことによってその積の値が大きくなりやすくなった影響だと思われる。</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-eval-score" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div id="fig-eval-score" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-eval-score-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/experiment-fig-eval-score-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eval-score-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: 仮想データによる各評価指標の分布
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>不均衡データによって、全ての評価指標に変化があることが確認できた。特に、値が変わらないものも分散が大きくなっていることが分かった。</p>
+</section>
+</section>
+<section id="参考" class="level1">
+<h1>参考</h1>
+<ul>
+<li><a href="https://gihyo.jp/book/2023/978-4-297-13314-6">評価指標入門〜データサイエンスとビジネスをつなぐ架け橋</a></li>
+</ul>
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

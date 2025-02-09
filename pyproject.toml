@@ -11,6 +11,8 @@ dependencies = [
     "jupyter (>=1.1.1,<2.0.0)",
     "jupyter-cache (>=1.0.1,<2.0.0)",
     "jupyterlab-quarto (>=0.3.5,<0.4.0)",
+    "scikit-learn (>=1.6.1,<2.0.0)",
+    "matplotlib (>=3.10.0,<4.0.0)",
 ]
 
 
