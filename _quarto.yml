@@ -4,7 +4,7 @@ project:
   execute-dir: project
   output-dir: docs
   preview: 
-    port: 7777
+    port: 8080
     browser: false
 
 execute: 
@@ -57,7 +57,5 @@ format:
 code-line-numbers: true
 code-annotations: hover
 code-fold: true
-
-fig-cap-location: margin
 
 license: CC BY 4.0 DEED
