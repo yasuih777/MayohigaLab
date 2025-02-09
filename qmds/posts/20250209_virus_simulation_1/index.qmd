@@ -1,7 +1,6 @@
 ---
 title: ウイルス感染症の数理シミュレーション（基礎）
 date: 02-09-2025
-image: true
 categories:
     - Julia
     - Simulation
