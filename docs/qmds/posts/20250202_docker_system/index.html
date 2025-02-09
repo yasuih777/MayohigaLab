@@ -179,6 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#dockerfileの構成" id="toc-dockerfileの構成" class="nav-link" data-scroll-target="#dockerfileの構成">Dockerfileの構成</a></li>
   <li><a href="#docker-composeの構成" id="toc-docker-composeの構成" class="nav-link" data-scroll-target="#docker-composeの構成">docker-composeの構成</a></li>
   <li><a href="#docker内のquarto環境" id="toc-docker内のquarto環境" class="nav-link" data-scroll-target="#docker内のquarto環境">Docker内のQuarto環境</a></li>
+  <li><a href="#jupyterlabでの開発" id="toc-jupyterlabでの開発" class="nav-link" data-scroll-target="#jupyterlabでの開発">JupyterLabでの開発</a></li>
   <li><a href="#参考" id="toc-参考" class="nav-link" data-scroll-target="#参考">参考</a></li>
   </ul>
 </nav>
@@ -323,14 +324,13 @@ Caution
 <span id="cb3-7"><a href="#cb3-7"></a>        r-base \</span>
 <span id="cb3-8"><a href="#cb3-8"></a>        pip \</span>
 <span id="cb3-9"><a href="#cb3-9"></a>    &amp;&amp; rm -rf /var/lib/apt/lists/* \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Rの仮想環境ビルドのため、renvをインストールする。 加えて、仮想環境を再現する。</p>
+<p>Rの仮想環境ビルドのため、renvをインストールする。</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a># RUN</span>
-<span id="cb4-2"><a href="#cb4-2"></a>   &amp;&amp; Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org"); renv::restore(); renv::repair()' \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Pythonの仮想環境ビルドのため、Poetryをインストールする。 加えて、仮想環境を再現する。</p>
+<span id="cb4-2"><a href="#cb4-2"></a>   &amp;&amp; Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org")' \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Pythonの仮想環境ビルドのため、Poetryをインストールする。</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a># RUN</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    &amp;&amp; pip install poetry --break-system-packages \</span>
-<span id="cb5-3"><a href="#cb5-3"></a>    &amp;&amp; poetry config --local virtualenvs.in-project true \</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    &amp;&amp; poetry install \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3"></a>    &amp;&amp; poetry config --local virtualenvs.in-project true \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Juliaをインストールする。 加えて、仮想環境を再現する。</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a># RUN</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    &amp;&amp; curl -fsSL https://install.julialang.org | sh -s -- -y \</span>
@@ -355,23 +355,23 @@ Tip
 <span id="cb7-3"><a href="#cb7-3"></a>    &amp;&amp; gdebi --non-interactive quarto-linux-amd64.deb \</span>
 <span id="cb7-4"><a href="#cb7-4"></a>    &amp;&amp; rm -rf quarto-linux-amd64.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>この構成のDockerfileをbuildすることで、必要な環境が全て入ったDocker containerを作成できる。</p>
-</section>
-<section id="docker-composeの構成" class="level1">
-<h1>docker-composeの構成</h1>
-<p>特別な工夫はしておらず、Dockerに入ったときに作業中のディレクトリ(<code>web_source</code>)とローカルのディレクトリ構成をリンクさせる設定にしている。</p>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Caution
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>localhostをローカル側に移す方法がいまいち分からず、Docker内でのJupyter notebook起動やQuarto previewが出来ない。理解が進んだら修正する。</p>
+<p>Python, Rのパッケージはローカルのものと紐づける設定をしているためbuild時点では環境を再現できていない始めて入った後にpoetry, renvを利用して環境を再現すると良い</p>
 </div>
 </div>
+</section>
+<section id="docker-composeの構成" class="level1">
+<h1>docker-composeの構成</h1>
+<p>特別な工夫はしておらず、Dockerに入ったときに作業中のディレクトリ(<code>web_source</code>)とローカルのディレクトリ構成をリンクさせる設定にしている。</p>
 </section>
 <section id="docker内のquarto環境" class="level1">
 <h1>Docker内のQuarto環境</h1>
@@ -426,6 +426,12 @@ Caution
 </code></pre>
 </div>
 </div>
+</section>
+<section id="jupyterlabでの開発" class="level1">
+<h1>JupyterLabでの開発</h1>
+<p>Dockerを立ち上げる際にportを開放することで、JupyterLabでの開発ができるようにしてある。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource {shell} number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a>docker compose run -p 8888:8888 --rm web-source</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>これによって、Docker内で起動したローカルホストが、ローカルPCで開けるようになっている。</p>
 </section>
 <section id="参考" class="level1">
 <h1>参考</h1>

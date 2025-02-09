@@ -1,10 +1,9 @@
 ---
-title: ウイルス感染症の数理シミュレーション（基礎）
-date: 02-03-2025
-image: true
+title: 不均衡データに対する二値分類評価指標の挙動
+date: now
 categories:
     - Python
-    - experiment
+    - Experiment
 notebook-view:
   - notebook: experiment.ipynb
     title: "補足資料"
