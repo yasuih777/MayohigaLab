@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-0a42c5c7ba6c13cd9b2d23f80ebb7e6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-fb112cd685da295e1e053fad35b30292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -178,7 +178,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ツール" id="toc-ツール" class="nav-link" data-scroll-target="#ツール">ツール</a></li>
   <li><a href="#dockerfileの構成" id="toc-dockerfileの構成" class="nav-link" data-scroll-target="#dockerfileの構成">Dockerfileの構成</a></li>
   <li><a href="#docker-composeの構成" id="toc-docker-composeの構成" class="nav-link" data-scroll-target="#docker-composeの構成">docker-composeの構成</a></li>
-  <li><a href="#docker内のquarto環境" id="toc-docker内のquarto環境" class="nav-link" data-scroll-target="#docker内のquarto環境">Docker内のQuarto環境</a></li>
   <li><a href="#jupyterlabでの開発" id="toc-jupyterlabでの開発" class="nav-link" data-scroll-target="#jupyterlabでの開発">JupyterLabでの開発</a></li>
   <li><a href="#参考" id="toc-参考" class="nav-link" data-scroll-target="#参考">参考</a></li>
   </ul>
@@ -214,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2025-03-01</p>
+      <p class="date-modified">2025-03-02</p>
     </div>
   </div>
     
@@ -227,11 +226,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="概要" class="level1">
 <h1>概要</h1>
-<p>本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。</p>
-<ul>
-<li><a href="https://github.com/yasuih777/MayohigaLab/blob/main/Dockerfile">DockerFile</a></li>
-<li><a href="https://github.com/yasuih777/MayohigaLab/blob/main/docker-compose.yml">dokcer-compose</a></li>
-</ul>
+<p><del>本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。</del></p>
+<p>結局、RをQuarto内で認識させることができなかったためローカルで実行するようにした。が、忘備録として残しておく。</p>
 </section>
 <section id="ツール" class="level1">
 <h1>ツール</h1>
@@ -285,7 +281,7 @@ Tip
 <section id="dockerfileの構成" class="level1">
 <h1>Dockerfileの構成</h1>
 <p>ベースイメージは<code>ubuntu</code>を使用する</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>FROM ubuntu:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">FROM</span> ubuntu:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -300,7 +296,7 @@ Tip
 </div>
 </div>
 <p>renv, pyproject.toml, Project.tomlの構成をDocker内にコピーする。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>COPY . /web_source/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">COPY</span> . /web_source/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -315,26 +311,26 @@ Caution
 </div>
 </div>
 <p>ubuntu側で必要なツールをインストールする。 同時にRとPython(pip)をインストールする。</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>RUN apt update \</span>
-<span id="cb3-2"><a href="#cb3-2"></a>    &amp;&amp; cd /web_source \</span>
-<span id="cb3-3"><a href="#cb3-3"></a>    &amp;&amp; apt install -y --no-install-recommends \</span>
-<span id="cb3-4"><a href="#cb3-4"></a>        curl \</span>
-<span id="cb3-5"><a href="#cb3-5"></a>        gdebi \</span>
-<span id="cb3-6"><a href="#cb3-6"></a>        build-essential \</span>
-<span id="cb3-7"><a href="#cb3-7"></a>        r-base \</span>
-<span id="cb3-8"><a href="#cb3-8"></a>        pip \</span>
-<span id="cb3-9"><a href="#cb3-9"></a>    &amp;&amp; rm -rf /var/lib/apt/lists/* \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">RUN</span> <span class="ex">apt</span> update <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> /web_source <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="kw">&amp;&amp;</span> <span class="ex">apt</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>        curl <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>        gdebi <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>        build-essential <span class="dt">\</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>        r-base <span class="dt">\</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>        pip <span class="dt">\</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span> <span class="dt">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Rの仮想環境ビルドのため、renvをインストールする。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a># RUN</span>
-<span id="cb4-2"><a href="#cb4-2"></a>   &amp;&amp; Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org")' \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># RUN</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>   &amp;&amp; Rscript -e <span class="st">'install.packages("renv", repos="https://cloud.r-project.org")'</span> <span class="op">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Pythonの仮想環境ビルドのため、Poetryをインストールする。</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a># RUN</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    &amp;&amp; pip install poetry --break-system-packages \</span>
-<span id="cb5-3"><a href="#cb5-3"></a>    &amp;&amp; poetry config --local virtualenvs.in-project true \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># RUN</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>    &amp;&amp; pip install poetry --break-system-packages <span class="op">\</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>    &amp;&amp; poetry config --local virtualenvs.in-project true <span class="op">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Juliaをインストールする。 加えて、仮想環境を再現する。</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a># RUN</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    &amp;&amp; curl -fsSL https://install.julialang.org | sh -s -- -y \</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    &amp;&amp; /root/.juliaup/bin/julia --project=@. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()' \</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># RUN</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>    &amp;&amp; curl -fsSL https://install.julialang.org | sh -s -- -y <span class="op">\</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>    &amp;&amp; /root/.juliaup/bin/julia --project=@. -e <span class="st">'using Pkg; Pkg.instantiate(); Pkg.precompile()'</span> <span class="op">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -350,9 +346,9 @@ Tip
 </div>
 <p>Quartoをインストールする。<br>
 ※インストーラーは最後に削除する。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource {DockerFile} number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a># RUN</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    &amp;&amp; curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb \</span>
-<span id="cb7-3"><a href="#cb7-3"></a>    &amp;&amp; gdebi --non-interactive quarto-linux-amd64.deb \</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># RUN</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>    &amp;&amp; curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb <span class="op">\</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>    &amp;&amp; gdebi --non-interactive quarto-linux-amd64.deb <span class="op">\</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a>    &amp;&amp; rm -rf quarto-linux-amd64.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>この構成のDockerfileをbuildすることで、必要な環境が全て入ったDocker containerを作成できる。</p>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -372,65 +368,23 @@ Warning
 <section id="docker-composeの構成" class="level1">
 <h1>docker-composeの構成</h1>
 <p>特別な工夫はしておらず、Dockerに入ったときに作業中のディレクトリ(<code>web_source</code>)とローカルのディレクトリ構成をリンクさせる設定にしている。</p>
-</section>
-<section id="docker内のquarto環境" class="level1">
-<h1>Docker内のQuarto環境</h1>
-<p><code>quarto check</code>で確認すると、Python, R, Julia全てが認識できている。<br>
-※Poetryをactivateしてから実行する。</p>
-<div id="3cb53327" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">!</span>poetry run quarto check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Quarto 1.6.40
-[✓] Checking environment information...
-      Quarto cache location: /root/.cache/quarto
-[✓] Checking versions of quarto binary dependencies...
-      Pandoc version 3.4.0: OK
-      Dart Sass version 1.70.0: OK
-      Deno version 1.46.3: OK
-      Typst version 0.11.0: OK
-[✓] Checking versions of quarto dependencies......OK
-[✓] Checking Quarto installation......OK
-      Version: 1.6.40
-      Path: /opt/quarto/bin
-
-(|) Checking tools....................(/) Checking tools....................[✓] Checking tools....................OK
-      TinyTeX: (not installed)
-      Chromium: (not installed)
-
-[✓] Checking LaTeX....................OK
-      Tex:  (not detected)
-
-(|) Checking basic markdown render....(/) Checking basic markdown render....(-) Checking basic markdown render....(\) Checking basic markdown render....(|) Checking basic markdown render....(/) Checking basic markdown render....(-) Checking basic markdown render....(\) Checking basic markdown render....(|) Checking basic markdown render....(/) Checking basic markdown render....[✓] Checking basic markdown render....OK
-
-(|) Checking Python 3 installation....[✓] Checking Python 3 installation....OK
-      Version: 3.12.3
-      Path: /web_source/.venv/bin/python3
-      Jupyter: 5.7.2
-      Kernels: python3, julia-1.11
-
-(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....(\) Checking Jupyter engine render....(|) Checking Jupyter engine render....(/) Checking Jupyter engine render....(-) Checking Jupyter engine render....[✓] Checking Jupyter engine render....OK
-
-(|) Checking R installation...........(/) Checking R installation...........(-) Checking R installation...........(\) Checking R installation...........(|) Checking R installation...........(/) Checking R installation...........(-) Checking R installation...........(\) Checking R installation...........(|) Checking R installation...........(/) Checking R installation...........(-) Checking R installation...........(\) Checking R installation...........(|) Checking R installation...........(/) Checking R installation...........[✓] Checking R installation...........OK
-      Version: 4.3.3
-      Path: /usr/lib/R
-      LibPaths:
-        - /web_source/renv/library/R-4.3/x86_64-pc-linux-gnu
-        - /root/.cache/R/renv/sandbox/R-4.3/x86_64-pc-linux-gnu/9a444a72
-      knitr: 1.49
-      rmarkdown: 2.29
-
-(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......(|) Checking Knitr engine render......(/) Checking Knitr engine render......(-) Checking Knitr engine render......(\) Checking Knitr engine render......[✓] Checking Knitr engine render......OK
-</code></pre>
-</div>
-</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource docker-compose.yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">services</span><span class="kw">:</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="at">  </span><span class="fu">web-source</span><span class="kw">:</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="at">    </span><span class="fu">restart</span><span class="kw">:</span><span class="at"> always</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="at">    </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="st">"8888:8888"</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./:/web_source</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="at">    </span><span class="fu">working_dir</span><span class="kw">:</span><span class="at"> /web_source</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">      # /bin/bash </span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="at">      /bin/bash --login</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="jupyterlabでの開発" class="level1">
 <h1>JupyterLabでの開発</h1>
 <p>Dockerを立ち上げる際にportを開放することで、JupyterLabでの開発ができるようにしてある。</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource {shell} number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a>docker compose run -p 8888:8888 --rm web-source</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href="#cb9-1"></a>docker compose run -p 8888:8888 --rm web-source</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>これによって、Docker内で起動したローカルホストが、ローカルPCで開けるようになっている。</p>
 </section>
 <section id="参考" class="level1">

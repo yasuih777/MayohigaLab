@@ -7,15 +7,13 @@ categories:
     - R
     - Python
     - Julia
-jupyter: python3
 ---
 
 # 概要
 
-本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。
+~~本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。~~
 
-- [DockerFile](https://github.com/yasuih777/MayohigaLab/blob/main/Dockerfile)
-- [dokcer-compose](https://github.com/yasuih777/MayohigaLab/blob/main/docker-compose.yml)
+結局、RをQuarto内で認識させることができなかったためローカルで実行するようにした。が、忘備録として残しておく。
 
 # ツール
 
@@ -47,7 +45,7 @@ R, Python, Juliaの仮想環境は、公式がサポートしているものを�
 
 ベースイメージは`ubuntu`を使用する
 
-```{DockerFile}
+```Dockerfile
 FROM ubuntu:latest
 ```
 
@@ -58,7 +56,7 @@ PythonやRを一気にビルドするベースイメージとして、`jupyter/d
 
 renv, pyproject.toml, Project.tomlの構成をDocker内にコピーする。
 
-```{DockerFile}
+```Dockerfile
 COPY . /web_source/
 ```
 
@@ -70,7 +68,7 @@ COPY . /web_source/
 ubuntu側で必要なツールをインストールする。
 同時にRとPython(pip)をインストールする。
 
-```{DockerFile}
+```Dockerfile
 RUN apt update \
     && cd /web_source \
     && apt install -y --no-install-recommends \
@@ -84,14 +82,14 @@ RUN apt update \
 
 Rの仮想環境ビルドのため、renvをインストールする。
 
-```{DockerFile}
+```Dockerfile
 # RUN
    && Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org")' \
 ```
 
 Pythonの仮想環境ビルドのため、Poetryをインストールする。
 
-```{DockerFile}
+```Dockerfile
 # RUN
     && pip install poetry --break-system-packages \
     && poetry config --local virtualenvs.in-project true \
@@ -100,7 +98,7 @@ Pythonの仮想環境ビルドのため、Poetryをインストールする。
 Juliaをインストールする。
 加えて、仮想環境を再現する。
 
-```{DockerFile}
+```Dockerfile
 # RUN
     && curl -fsSL https://install.julialang.org | sh -s -- -y \
     && /root/.juliaup/bin/julia --project=@. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()' \
@@ -113,7 +111,7 @@ Juliaダウンロード直後は`julia`コマンドが動かなかった(多分P
 Quartoをインストールする。  
 ※インストーラーは最後に削除する。
 
-```{DockerFile}
+```Dockerfile
 # RUN
     && curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb \
     && gdebi --non-interactive quarto-linux-amd64.deb \
@@ -130,20 +128,26 @@ Python, Rのパッケージはローカルのものと紐づける設定をし�
 
 特別な工夫はしておらず、Dockerに入ったときに作業中のディレクトリ(`web_source`)とローカルのディレクトリ構成をリンクさせる設定にしている。
 
-# Docker内のQuarto環境
-
-`quarto check`で確認すると、Python, R, Julia全てが認識できている。  
-※Poetryをactivateしてから実行する。
-
-```{python}
-!poetry run quarto check
+```docker-compose.yaml
+services:
+  web-source:
+    build: .
+    restart: always
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/web_source
+    working_dir: /web_source
+    command:
+      # /bin/bash 
+      /bin/bash --login
 ```
 
 # JupyterLabでの開発
 
 Dockerを立ち上げる際にportを開放することで、JupyterLabでの開発ができるようにしてある。
 
-```{shell}
+```shell
 docker compose run -p 8888:8888 --rm web-source
 ```
 
