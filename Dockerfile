@@ -12,7 +12,7 @@ RUN apt update \
         r-base \
         pip \
     && rm -rf /var/lib/apt/lists/* \
-	&& Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org")' \
+	&& Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org"); renv::restore(); renv::repair()' \
     && pip install poetry --break-system-packages \
     && poetry config --local virtualenvs.in-project true \
     && curl -fsSL https://install.julialang.org | sh -s -- -y \

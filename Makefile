@@ -14,7 +14,6 @@ docker_clean:
 
 .PHONY: build_init
 build_init:
-	Rscript -e 'renv::restore(); renv::repair()'
 	poetry install
 
 .PHONY: quarto_render
@@ -23,6 +22,7 @@ quarto_render:
 
 .PHONY: jupyter_build
 jupyter_build:
+	poetry run Rscript -e 'IRkernel::installspec(user=FALSE)'
 	poetry run jupyter lab \
 		--ip=0.0.0.0 \
 		--port=8888 \
