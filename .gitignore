@@ -3,7 +3,6 @@
 
 # Jupyter
 .ipynb_checkpoints/
-.Trash*
 
 # Quarto
 /.quarto/
@@ -20,5 +19,9 @@
 .jupyter_cache
 
 # Julia
+
+# cache
+.Trash*
+.DS_Store
 
 # hidden directory
