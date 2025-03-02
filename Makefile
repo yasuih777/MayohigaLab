@@ -31,7 +31,6 @@ jupyter_build:
 		--ip=0.0.0.0 \
 		--port=8888 \
 		--no-browser \
-		--notebook-dir=/web_source \
 		--allow-root --LabApp.token=""
 
 .PHONY: lib_snapshot
