@@ -21,7 +21,6 @@ build_lib:
 
 .PHONY: quarto_render
 quarto_render:
-	poetry run Rscript -e 'IRkernel::installspec()'
 	poetry run quarto render ${FILE}
 
 .PHONY: jupyter_build
