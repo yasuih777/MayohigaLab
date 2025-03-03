@@ -1,5 +1,6 @@
 ---
 title: QuartoでWebページを作る際のDocker構成について
+abstract: Quarto Webを構成するDockerの構築方法
 date: 02-02-2025
 categories:
     - Quarto

@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-01-26">
+<meta name="dcterms.date" content="2025-03-03">
 
-<title>管理者について – マヨヒガ研究所</title>
+<title>Compatibility intervalについて – マヨヒガ研究所</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,22 +24,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../images/profile.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fb112cd685da295e1e053fad35b30292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/profile.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-fb112cd685da295e1e053fad35b30292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,8 +69,37 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,10 +109,10 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/profile.png" alt="" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/profile.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">マヨヒガ研究所</span>
     </a>
   </div>
@@ -93,19 +123,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../qmds/index.html"> 
+    <a class="nav-link" href="../../../qmds/index.html"> 
 <span class="menu-text">ホーム</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../qmds/posts.html"> 
+    <a class="nav-link" href="../../../qmds/posts.html"> 
 <span class="menu-text">記事</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../qmds/about.html" aria-current="page"> 
+    <a class="nav-link" href="../../../qmds/about.html"> 
 <span class="menu-text">管理者について</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../qmds/contact.html"> 
+    <a class="nav-link" href="../../../qmds/contact.html"> 
 <span class="menu-text">お問い合わせ</span></a>
   </li>  
 </ul>
@@ -137,73 +167,126 @@ ul.task-list li input[type="checkbox"] {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
+   
   <ul>
-  <li><a href="#経歴" id="toc-経歴" class="nav-link active" data-scroll-target="#経歴">経歴</a></li>
+  <li><a href="#統計的仮説検定の問題点" id="toc-統計的仮説検定の問題点" class="nav-link active" data-scroll-target="#統計的仮説検定の問題点">統計的仮説検定の問題点</a></li>
+  <li><a href="#p値関数" id="toc-p値関数" class="nav-link" data-scroll-target="#p値関数">P値関数</a></li>
+  <li><a href="#compatibility-interval" id="toc-compatibility-interval" class="nav-link" data-scroll-target="#compatibility-interval">Compatibility interval</a></li>
+  <li><a href="#参考" id="toc-参考" class="nav-link" data-scroll-target="#参考">参考</a></li>
   </ul>
-</nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="theory-preview.html"><i class="bi bi-journal-code"></i>補足資料</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<div class="quarto-about-solana column-body">
-  <div class="about-entity">
-    <div class="entity-contents">
-      <header id="title-block-header" class="quarto-title-block default">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">管理者について</h1>
-</div>
+<h1 class="title">Compatibility intervalについて</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Statistics</div>
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Theory</div>
+  </div>
+  </div>
+
+
+
 <div class="quarto-title-meta">
+
+    
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025-01-26</p>
+      <p class="date">2025-03-03</p>
     </div>
   </div>
+  
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
       <p class="date-modified">2025-03-03</p>
     </div>
   </div>
+    
   </div>
-</header> 
-      <div class="about-contents"><main class="content" id="quarto-document-content">
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    統計的仮説検定とは異なるP値の考え方
+  </div>
+</div>
 
-<p>生物統計学と遺伝統計学を頑張りたい人。R&amp;D寄りのデータサイエンティスト。</p>
-<section id="経歴" class="level1">
-<h1>経歴</h1>
+
+</header>
+
+
+<p>科学における統計手法の誤用は多くの場面で見られ、訂正されずに、今なお普遍的な方法として紹介されている。そのほとんどが統計的仮説検定に基づいた、P値によるカットオフを利用して結論を決定するというものである。また、その代替え案として信頼区間やベイズ推定による手法などが提案されているが、普遍的な方法の置き換えとしては十分といえない（そもそも統計解析において「普遍的な方法」は存在しないことは知っておいたほうが良い）。</p>
+<p>そこで、今回はP値を別の定義で考える<strong>Compatibility interval</strong>を考察し、その利点を考察していく。</p>
+<section id="統計的仮説検定の問題点" class="level1">
+<h1>統計的仮説検定の問題点</h1>
+<p>ネイピア・ピアソン流の統計的仮説検定は、大まかに以下の手順で、事前に決めた有意水準に対して求まったP値が下回るかどうかの真偽で評価を行う。</p>
 <ul>
-<li>熊本県で生まれ育つ</li>
-<li>国立大学の数学科を卒業
+<li>検証したい仮説（対立仮説）とその否定関係にある仮説（帰無仮説）を定義する</li>
+<li>帰無仮説を棄却する確率（有意水準）を定義する</li>
+<li>計算によりP値を算出し、帰無仮説が棄却されるかどうかを確認する
 <ul>
-<li>解析学(微分積分学)を中心に数学理論を学ぶ</li>
+<li>帰無仮説が棄却できる（P値が有意水準を下回る）場合、対立仮説を支持する：有意差を認める</li>
+<li>帰無仮説が棄却できない（P値が有意水準を下回らない）場合、帰無仮説を支持する：有意差があるとは限らない</li>
 </ul></li>
-<li>国立大学院の生命科学専攻を修了
+</ul>
+<p>このロジックは統計的根拠として広く受け入れられ、多くの科学的根拠として報告され、大学レベルの教科書でも普遍的な手法として扱われている。これは、統計的仮説検定が再現性が高く、簡単で、分かりやすい解釈を与えてくれるように見えるからであると思う。</p>
+<p>しかし、実際にはかなり複雑な仮定をしており多くの誤用が指摘されている。また、一見簡単に見えるが気をつけて使用しないと研究不正の操作を行ってしまう。加えて、有意差が直接的な根拠となるケースは少なく他の統計量と合わせた総合的な解釈が必要であるというのが現在の通説となりつつある。加えて、教科書には書かれていないが、以下の問題が指摘されている。</p>
 <ul>
-<li>Wetな手法でエピジェネティクスと初期発生に関する研究を行う</li>
-<li>定量化の方法としては画像解析系の技術を学ぶ</li>
-</ul></li>
-<li>受託分析会社でデータサイエンティストとして勤務
+<li>連続量であるP値を閾値として扱うこと</li>
+<li>普遍的な有意水準である<span class="math inline">\(\alpha = 0.05\)</span>に科学的根拠がないこと</li>
+<li>有意差を認めない場合にサンプルサイズが少なかったのか、帰無仮説が真に正しいのか判断できないこと</li>
+<li>ビッグデータレベルのサンプルサイズだと僅かな変化でも有意差が出てしまうこと</li>
+<li><strong>P値がzero-effectである帰無仮説を真と仮定して計算されること、即ち、データに系統誤差がなくサンプルが完全にランダムに抽出しているという現実的にほぼありえない仮定を前提としていること</strong></li>
+</ul>
+</section>
+<section id="p値関数" class="level1">
+<h1>P値関数</h1>
+<p>上記の理由から、P値を誤解なく扱うには統計的仮説検定での有意水準をカットオフとした方法では難しい。ここで、P値は帰無仮説の元で検定統計量をとる確率であることを考える。</p>
+<p>P値は1に近ければ近いほど帰無仮説上での母数がそのデータと仮説において相性が良い(Compatibility)ことを表すので、データと仮説に対して任意の母数とそれに対するP値の組を算出すればどの母数が確率的にCompatibilityであるかが分かる。P値が1である母数は最もデータと仮説に対してCompatibilityである(<span class="math inline">\(\fallingdotseq\)</span>最大尤度)。また、一定のP値より大きいP値をとる母数の範囲を<strong>Compatibility interval</strong>(<span class="math inline">\(\fallingdotseq\)</span>信頼区間)と呼ぶ。</p>
+<p>上の関係性をわかりやすく描画したものが母数をx軸、P値をy軸にプロットしたもので<strong>P値関数</strong>と呼ぶ。</p>
+<p>例えば、二項検定を例にしたP値関数は以下の通りである。</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-binormtest-pvalue" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-binormtest-pvalue" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-binormtest-pvalue-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/theory-fig-binormtest-pvalue-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-binormtest-pvalue-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: 黒線はP値関数、赤線は95%信頼区間、赤点は最大尤度
+</figcaption>
+</figure>
+</div>
+</div>
+<p>二項検定のP値関数</p>
+</div>
+</div>
+<p>ここでは、試行回数の半分を成功とした場合のデータを仮定した。試行回数が多いほど95%信頼区間は狭い範囲をとるが、最大尤度は試行回数によらず仮定した半分の成功確率であることが分かる。このように、P値関数を用いることでデータと仮説に対して相性が良い、当てはまっている母数の範囲を推定することができる。</p>
+</section>
+<section id="compatibility-interval" class="level1">
+<h1>Compatibility interval</h1>
+<p>ここでの信頼区間とCompatibility intervalの違いは単なる言い換えにほかならないが、P値関数を導入することでデータに対して相性の良い推定量の範囲を論じることができる。すると、信頼区間を考える時に出てくる「不確実性が高い」といった曖昧な記述を避けることができる。</p>
+<p>今後、この考え方が科学の基底概念になっていくか分からないが、少なくとも現状の統計的仮説検定よりかは正しい（誤用を産まない）方法であるように思える。いつかその日が来ることを信じて準備しておきたい。</p>
+</section>
+<section id="参考" class="level1">
+<h1>参考</h1>
 <ul>
-<li>データ利活用を目的としたコンサルテーションを担当</li>
-<li>BIエンジニアリング, AIエンジニアリング, データ基盤作成, データ分析業を幅広く学ぶ</li>
-<li>プロジェクトリーダーを経験</li>
-</ul></li>
-<li><strong>医療系ベンチャー企業のAIエンジニアとして勤務 ← Now</strong>
-<ul>
-<li>医療機器に組み込む疾患予測モデルの構築</li>
-<li>社内データ基盤の整備</li>
-<li>臨床研究におけるデータ解析を担当</li>
-</ul></li>
+<li><a href="https://www.biometrics.gr.jp/news/all/ASA.pdf">ASA声明(和訳)</a></li>
+<li><a href="https://journals.sagepub.com/doi/epub/10.1177/02683962221105904">Discuss practical importance of results based on interval estimates and p-value functions, not only on point estimates and null p-values</a></li>
+<li><a href="https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-020-01105-9">Semantic and cognitive tools to aid statistical science: replace confidence and significance by compatibility and surprise</a></li>
 </ul>
 
 
 </section>
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section></div></main></div>
-    </div>
-    <img src="../images/profile.png" class="about-image
-  rounded " style="width: 15em;">
-  </div>
-</div>
- <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -224,6 +307,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     
@@ -678,5 +768,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
