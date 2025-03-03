@@ -5,7 +5,7 @@
 
 - OS: macOS Sequoia
 - Homebrew: 4.4.22
-- Quarto: 1.6.40
+- Quarto: 1.6.42
 - Python: 3.12.9
 - R: 4.4.3
 - Julia: 1.11.3
