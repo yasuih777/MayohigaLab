@@ -2,8 +2,8 @@
 title: 管理者について
 date: 01-26-2025
 about:
-    template: solana
-    image: ../images/profile.png
+  template: solana
+  image: ../images/profile.png
 ---
 
 生物統計学と遺伝統計学を頑張りたい人。R&D寄りのデータサイエンティスト。

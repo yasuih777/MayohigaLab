@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-0a42c5c7ba6c13cd9b2d23f80ebb7e6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-fb112cd685da295e1e053fad35b30292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -195,6 +195,7 @@ window.Quarto = {
 <div class="quarto-title">
 <h1 class="title">不均衡データに対する二値分類評価指標の挙動</h1>
   <div class="quarto-categories">
+    <div class="quarto-category">MachineLearning</div>
     <div class="quarto-category">Python</div>
     <div class="quarto-category">Experiment</div>
   </div>
@@ -215,19 +216,25 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2025-02-09</p>
+      <p class="date-modified">2025-03-03</p>
     </div>
   </div>
     
   </div>
   
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    不均衡データでの評価指標の信頼性検証
+  </div>
+</div>
 
 
 </header>
 
 
-<p>機械学習の二値分類問題において、教師データの陽性・陰性の割合が大きく異なっている<strong>不均衡データ</strong>がよく扱われる。不均衡データは予測を難しくすることは周知の事実だが、加えて様々な評価指標に対してもミスリーディングを生み出すことがある。<br>
-そこで、不均衡データに対する評価指標の挙動を確認していく。</p>
+<p>機械学習の二値分類問題において、教師データの陽性・陰性の割合が大きく異なっている<strong>不均衡データ</strong>がよく扱われる。不均衡データは予測を難しくすることは周知の事実だが、加えて様々な評価指標に対してもミスリーディングを生み出すことがある。</p>
+<p>そこで、不均衡データに対する評価指標の挙動を確認していく。</p>
 <section id="評価指標" class="level1">
 <h1>評価指標</h1>
 <p>まずは、評価指標のおさらいから入る。</p>

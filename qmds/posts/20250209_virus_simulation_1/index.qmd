@@ -1,15 +1,23 @@
 ---
 title: ウイルス感染症の数理シミュレーション（基礎）
+abstract: 簡単な力学系を使ったウイルス感染症モデリング
 date: 02-09-2025
 categories:
-    - Julia
-    - Simulation
+  - Mathematics
+  - Simulation
+  - Julia
 notebook-view:
   - notebook: simulation.ipynb
     title: "補足資料"
+format:
+  html:
+    other-links:
+      - text: ウイルス感染症の数理シミュレーション（応用）
+        href: ../draft_virus_simulation_2/index.html
 ---
 
-ウイルス感染の疫学を正しく理解することは、適切な対応や試作を打つうえでとても重要である。アプローチとして、ウイルス動態を数式で表現し、そのシミュレーションやパラメータ推定を行うことがとても有効である。  
+ウイルス感染の疫学を正しく理解することは、適切な対応や施策を打つうえでとても重要である。アプローチとして、ウイルス動態を数式で表現し、そのシミュレーションやパラメータ推定を行うことがとても有効である。
+
 そこで、ウイルス感染の数理シミュレーションの基礎を扱い、どのような技術が使われているのか確認する。
 
 # 指数方程式
@@ -98,7 +106,6 @@ digraph G {
 
     subgraph cluster_cell {
         label = "Cells size Limited";
-        labeljust="l";
 
         TC [label="Target cells"];
         IC [label="Infected cells"];
@@ -119,7 +126,7 @@ digraph G {
 
 ウイルスの増殖が進むにつれて標的となる細胞が減ってくるため、ウイルスの増殖速度が低下する。これを微分方程式で表現すると @eq-logit となり、**ロジスティック方程式**と呼ぶ。これも一般解が得られる。
 
-::: {.callout-tip}
+::: {.callout-note}
 一般解を整理すると、ロジスティック関数が得られる。
 $$
 f(x) = \frac{1}{1 + \exp(-x)}

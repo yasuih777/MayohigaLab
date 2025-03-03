@@ -2,11 +2,11 @@
 title: 記事
 date: 01-26-2025
 listing:
-    contents: "posts/**/*.qmd"
-    sort-ui: true
-    filter-ui: true
-    type: grid
-    categories: true
-    sort: "date desc"
-    fields: ["title", "date", "author", "categories", "description", "reading-time"]
+  contents: "posts/**/*.qmd"
+  sort-ui: true
+  filter-ui: true
+  type: grid
+  categories: true
+  sort: "date desc"
+  fields: ["title", "abstract", "date", "author", "categories", "reading-time"]
 ---
