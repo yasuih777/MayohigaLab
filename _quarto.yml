@@ -33,6 +33,12 @@ website:
           - text: Issues page
             href: https://github.com/yasuih777/MayohigaLab/issues
   page-footer: Copyright 2025 
+  cookie-consent:
+    type: express
+    style: headline
+  google-analytics:
+    tracking-id: "G-8DYYPDLKN5"
+    anonymize-ip: true
 
 title: Non title
 date: now
