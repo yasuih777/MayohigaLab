@@ -1,0 +1,345 @@
+---
+title: ウイルス感染症の数理シミュレーション（応用）
+abstract: ウイルスの特性を考慮した感染症モデリング
+date: 03-15-2025
+categories:
+  - Mathematics
+  - Simulation
+  - Julia
+notebook-view:
+  - notebook: simulation.ipynb
+    title: "補足資料"
+format:
+  html:
+    other-links:
+      - text: ウイルス感染症の数理シミュレーション（基礎）
+        href: ../20250209_virus_simulation_1/index.html
+---
+
+[ウイルス感染症の数理シミュレーション（基礎）](../20250209_virus_simulation_1/index.html)では、ウイルスを細胞間の相互作用を考慮したモデルを作成し、ウイルス量と細胞数に関する動態を確認した。今回は、特異的な特性をもつウイルスに焦点を当てて、それらの数理モデルや動態を確認していく。
+
+# B型感染ウイルスの動態
+
+B型感染ウイルス(hepatities B virus: HBV)はヒト肝細胞を標的とするウイルスである。このウイルスは乳児期にワクチン接種を行うことで高い確率で予防できるが、感染後には有効な薬剤が少なく、慢性化すると肝硬変や肝がんの原因になる。
+
+HBVウイルスは細胞→核内に侵入した後、cc-cDNA(convalenty closed circular DNA)という安定した二本鎖DNAに変異し、これを起点に新たなウイルス増殖を行うため、完全に排除することが非常に難しい。
+
+即ち、HBVウイルスの予防には細胞への侵入を防止することが最も重要である。そこで、HBVウイルスの侵入状態ごとの動態を数理モデルでシミュレーションすれば感染阻害が形成される条件を解析することができる。
+
+HBVウイルスの各侵入状態${V_{dis}, V_{att}, V_{int}, V_{ccc}}$は**反応速度論**を用いた常微分方程式で記述できる。
+
+::: {.callout-note title="反応速度論"}
+一般的な可逆化学反応(A⇔B)による生成物の組成動態は以下の微分方程式で表現できる。
+
+```{dot}
+//| fig-width: 2
+//| fig-height: 0.5
+
+digraph G {
+    graph [rankdir = LR]
+    A;
+    B;
+
+    A -> B [label="kB"]
+    B -> A [label="kA"]
+}
+```
+
+$$
+\begin{align}
+&\frac{d |A|}{d t} = k_A |B| - k_B |A| \\
+&\frac{d |B|}{d t} = k_B |A| - k_A |B|
+\end{align}
+$$
+:::
+
+## 細胞侵入に着目したモデル
+
+まずは、HBVウイルス動態についてウイルスが細胞から解離しているか、接着しているかの単純な数理モデルを考える。
+
+```{dot}
+//| fig-width: 4
+//| fig-height: 1
+
+digraph G {
+    graph [rankdir = LR]
+    dis [label="V(dis)"];
+    att [label="V(att)"];
+
+    dis -> att [label="k(att)"]
+    att -> dis [label="k(dis)"]
+}
+```
+
+これは、上記の可逆化学反応における微分方程式と同じ表現で記述できる。@eq-HBV-middle
+
+- $V_{dis}(t)$: 1細胞あたりの解離ウイルス量
+- $V_{att}(t)$: 1細胞あたりの接着ウイルス量
+- $k_{dis}$: 1細胞あたりのウイルス解離速度
+- $k_{att}$: 1細胞あたりのウイルス接着速度
+
+$$
+\begin{align}
+&\frac{d V_{dis}(t)}{d t} = k_{dis} V_{att}(t) - k_{att} V_{dis}(t) \\
+&\frac{d V_{att}(t)}{d t} = k_{att} V_{dis}(t) - k_{dis} V_{att}(t)
+\end{align}
+$$ {#eq-HBV-middle}
+
+これらの動態は以下のようになる。一般的にウイルスが解離する速度が速いため、$V_{dis}$量が多くなり、解が収束する。
+
+{{< embed simulation.ipynb#fig-HBV-middle >}}
+
+::: {.callout-note}
+@eq-HBV-middle のような単純な可逆反応を表す連立常微分方程式は固有値$\lambda = 0$を持つため、一般解は以下のようになる。このとき、$t \rightarrow \infty$で$C_{1} e^{- \lambda t} \rightarrow 0$なので、解は必ず収束する。
+
+$$
+\left\{ \,
+\begin{aligned}
+&V_{dis} = \alpha_{1} C - C_{1} e^{- \lambda t} \\
+&V_{att} = C_{1} e^{- \lambda t} + \alpha_{2} C
+\end{aligned}
+\right.
+$$
+:::
+
+## 全状態を考慮したモデル
+
+次に、全状態を考慮したモデルを以下の微分方程式 @eq-HBV-all で仮定する。
+
+```{dot}
+//| fig-width: 8
+//| fig-height: 2
+
+digraph G {
+    graph [rankdir = LR]
+    dis [label="V(dis)"];
+    att [label="V(att)"];
+
+    subgraph cluster_cell {
+        label = "Cell";
+
+        int [label="V(int)"];
+        intout [label="", shape=point, color=none, width=0.01, height=0.01];
+
+        subgraph cluster_nucleus {
+            label = "Nucleus"
+
+            ccc [label="V(ccc)"];
+            cccout [label="", shape=point, color=none, width=0.01, height=0.01];
+        }
+
+        int -> intout [label="k(di)"]
+    }
+
+    dis -> att [label="k(att)"]
+    att -> dis [label="k(dis)"]
+    att -> int [label="k(int)"]
+    int -> ccc [label="k(ccc)"]
+    ccc -> cccout [label="k(dc)"]
+}
+```
+
+- $V_{dis}(t)$: 1細胞あたりの解離ウイルス量
+- $V_{att}(t)$: 1細胞あたりの接着ウイルス量
+- $V_{int}(t)$: 1細胞あたりの内在化ウイルス量
+- $V_{ccc}(t)$: 1細胞あたりのcccDNA量
+- $k_{dis}$: 1細胞あたりのウイルス解離速度
+- $k_{att}$: 1細胞あたりのウイルス接着速度
+- $k_{int}$: 1細胞あたりのウイルス内在化速度
+- $k_{ccc}$: 1細胞あたりのcccDNA形成速度
+- $k_{di}$: 1細胞あたりの内在化ウイルス分解速度
+- $k_{dc}$: 1細胞あたりのcccDNA分解速度
+- $K$: 1細胞あたりのcccDNA量最大値（環境収容力）
+
+$$
+\begin{align}
+&\frac{d V_{dis}(t)}{d t} = k_{dis} V_{att}(t) - k_{att} V_{dis}(t) \\
+&\frac{d V_{att}(t)}{d t} = k_{att} V_{dis}(t) - k_{dis} V_{att}(t) - k_{int} V_{att}(t) \\
+&\frac{d V_{int}(t)}{d t} = k_{int} V_{att}(t) - k_{ccc} \left(1 - \frac{V_{ccc}(t)}{K} \right) V_{int}(t) - k_{di} V_{int}(t) \\
+&\frac{d V_{ccc}(t)}{d t} = k_{ccc} \left(1 - \frac{V_{ccc}(t)}{K} \right) V_{int}(t) - k_{dc} V_{ccc}(t) \\
+\end{align}
+$$ {#eq-HBV-all}
+
+これらの動態は以下のようになる。解離ウイルスの増加および接着ウイルスの減少が確認できるが、cccDNA量も環境収容力まで増加しておりウイルス感染していることが分かる。
+
+{{< embed simulation.ipynb#fig-HBV-all >}}
+
+これらの数理モデリングでは、各パラメータを変化させることで最終的な動態を比較することができる。このHBVウイルスのcccDNA量を減らすために、各反応速度を抑制する阻害薬と投与した場合に最終的なcccDNA量がどうなるかを検証する。
+
+ウイルス接着速度$k_{att}$、ウイルス内在化速度$k_{int}$、cccDNA速度形成速度$k_{ccc}$をそれぞれ独立に$\alpha$%阻害する仮定において、最終(反応開始後12日)cccDNA量は以下のようになる。
+
+低い阻害率においては状態が近い内在化阻害よりも接着阻害の方がより効果があることが分かった。
+
+{{< embed simulation.ipynb#fig-HBV-inhibition >}}
+
+# エンテロウイルスの動態
+
+エンテロウイルスはピコルナウイルス科の一本鎖RNAウイルスである。主なヒトエンテロウイルスであるEV71は乳幼児でよく感染が報告される手足口病(hand, foot, and mouth disease: HFMD)の原因となるウイルスである。このHFMDは飛沫、接触、糞口感染し自然治癒する。死して、時には重篤な中核神経合併症を引き起こし、その場合での有効な治療法が確立されていない。
+
+エンテロウイルスは、感染細胞を破壊しながら一気に放出するという特殊な感染機構を持つ。そのため、感染動態について十分な定量的理解ができていなかった。
+
+そこで、エンテロウイルスの感染動態をプロセスごとに分解し数理シミュレーションしていく。このとき、ウイルスが一斉放射までの**暗黒期**(感染しているが、ウイルスは放出しない状態)も考慮する。
+
+エンテロウイルスの感染プロセスは、標的細胞$T$→感染細胞（暗黒期）$E$→感染細胞（ウイルス産生）$I$であり、それにウイルス量$V$を加えた数理モデルで記述できる。@eq-EV71
+
+```{dot}
+//| fig-width: 8
+//| fig-height: 2
+
+digraph G {
+    graph [rankdir = TB]
+    tcell [label="T"];
+    ecell [label="E"];
+    icell [label="I"];
+    dcell [label="dead cell"];
+    virus [label="V"];
+    virusout [label="", shape=point, color=none, width=0.01, height=0.01];
+    convt2e [label="", shape=point, color=none, width=0.01, height=0.01];
+
+    tcell -> tcell [label="g, T max"; headport=nw; tailport=ne]
+    tcell -> convt2e [label="beta"]
+    convt2e -> ecell [arrowhead=none]
+    ecell -> icell [label="k"]
+    icell -> virus [label="p"]
+    virus -> convt2e [arrowhead=none]
+    virus -> virusout [label="c"]
+    icell -> dcell [label="delta"]
+
+    {rank = min; virus; virusout}
+    {rank = max; tcell; convt2e; ecell; icell; dcell}
+}
+```
+
+- $T(t)$: 標的細胞数
+- $E(t)$: 暗黒期細胞数
+- $I(t)$: ウイルス産生を行う感染細胞数
+- $V(t)$: ウイルス量
+- $g$: 細胞増殖率
+- $T_{max}$: 環境収容力
+- $\beta$: ウイルス感染率
+- $k$: ウイルスタンパク質発現率
+- $\delta$: 感染細胞死亡率
+- $p$: ウイルス産生数
+- $c$: ウイルス感染力消失率
+
+$$
+\begin{align}
+&\frac{d T(t)}{d t} = g T(t) \left( 1 - \frac{T(t)}{T_{max}} \right) - \beta T(t) V(t) \\
+&\frac{d E(t)}{d t} = \beta T(t) V(t) - k E(t) \\
+&\frac{d I(t)}{d t} = k E(t) - \delta I(t) \\
+&\frac{d V(t)}{d t} = p I(t) - c V(t) \\
+\end{align}
+$$ {#eq-EV71}
+
+このモデルは、平均的に$1/k$の暗黒期を経て指数分布に従ってウイルス産生を開始すると仮定している。
+
+増減率$g=0$とした場合のこれらの動態は以下のようになる。暗黒期細胞とウイルス産生を行う感染細胞について時間遅れが確認できる。
+
+{{< embed simulation.ipynb#fig-EV71 >}}
+
+# ヒト免疫不全ウイルスの動態
+
+エンテロウイルスでは、暗黒期が従う確率分布を指数分布として数理モデリングを作成した。この場合では細胞が感染した直後にウイルス産生が起こることもありうる。これは、実際の動態ではあまり考えられないので、デルタ分布や正規分布、対数正規分布、ガンマ分布などもっと適した確率分布を仮定する必要がある。
+
+ウイルスは細胞に感染した後、さまざまな過程を経てウイルス産生へと至る。エイズの原因ウイルスであるヒト免疫不全ウイルス(HIV)は特にこの暗黒期が長いウイルスで、10年程度発症しないこともある。即ち、指数分布では動態を上手く捉えられないということである。
+
+```{dot}
+//| fig-width: 8
+//| fig-height: 2
+
+digraph G {
+    graph [rankdir = TB]
+    tcell [label="T"];
+    ecell [label="E"];
+    icell [label="I"];
+    dcell [label="dead cell"];
+    virus [label="V"];
+    virusout [label="", shape=point, color=none, width=0.01, height=0.01];
+    convt2e [label="", shape=point, color=none, width=0.01, height=0.01];
+
+    tcell -> tcell [label="g, T max"; headport=nw; tailport=ne]
+    tcell -> convt2e [label="beta"]
+    convt2e -> ecell [arrowhead=none]
+    ecell -> icell [label="Hazerd rate: a", style="dotted"]
+    icell -> virus [label="p"]
+    virus -> convt2e [arrowhead=none]
+    virus -> virusout [label="c"]
+    icell -> dcell [label="delta"]
+
+    {rank = min; virus; virusout}
+    {rank = max; tcell; convt2e; ecell; icell; dcell}
+}
+```
+
+数理モデリングでこの暗黒期を導入するために、個々の細胞でのウイルスが侵入した後の経過時間を**感染年齢**$a$と定義する。加えて、時刻$t$における感染年齢$a$の**暗黒期細胞密度**を$\phi_{E}(t, a)$と定義する。この暗黒期細胞密度は個々の暗黒期細胞のコホートであり、暗黒期細胞の感染年齢分布である。
+
+次に、感染年齢$a$の暗黒期細胞がウイルス産生細胞になる**遷移率**$\mu_{E}(a)$を**ハザード関数** @eq-Hazerd で定義する。
+
+$$
+f(a) = \mu_E(a) \exp \left(- \int^{a}_{0} \mu_E(s) ds \right)
+$$ {#eq-Hazerd}
+
+このハザード関数によって、以下の確率が求められる。
+
+- 感染年齢$a$の暗黒期細胞が$a$から$\Delta a$経過した間にウイルス産生細胞になる確率: $\int^{a + \Delta a}_{a} f(s) ds$
+- 感染年齢$a$までに暗黒期細胞がウイルス産生細胞になる確率: $\int^{a}_{0} f(s) ds = 1 - \exp (- \int^{a}_{0} \mu_{E}(s) ds)$
+- 感染年齢$a$までに暗黒期細胞である確率: $1 - \int^{a}_{0} f(s) ds = \exp (- \int^{a}_{0} \mu_{E}(s) ds)$
+
+これらの枠組みを利用して、年齢構造を持つ数理モデルとして、 @eq-EV71 を変形した以下の偏微分方程式 @eq-HIV-PDE が定義できる。ただし、境界条件は$\phi_{E} (t, 0) = \beta T(t) V(t)$であり、標的細胞の増加は無視している。
+
+$$
+\begin{align}
+&\frac{d T(t)}{d t} = - \beta T(t) V(t) \\
+&\left( \frac{\partial}{\partial t} + \frac{\partial}{\partial a} \right) \phi_{E} (t, a) = - \mu_{E}(a) \phi_{E} (t, a) \\
+&\frac{d I(t)}{d t} = \int^{\infty}_{0} - \mu_{E}(a) \phi_{E} (t, a) da - \delta I(t) \\
+&\frac{d V(t)}{d t} = p I(t) - c V(t) \\
+\end{align}
+$$ {#eq-HIV-PDE}
+
+ウイルス感染について、初期条件では標的細胞のみが存在すると仮定する($T(0) = 0, I(0) = 0, \phi_{E}(0, a) = 0$)。このとき、特性曲線法により
+
+$$
+\begin{align}
+\phi_{E}(t, a) = 
+    \begin{cases}
+    \exp \left( - \int^{a}_{0} \mu_{E}(s) ds \right) \beta T(t - a) V(t - a) &\ (t > a) \\
+    0 &\ (t < a)
+    \end{cases}
+\end{align}
+$$
+
+が得られる。これを @eq-HIV-PDE に代入すれば、ウイルス産生細胞の微分方程式は以下のようになる。
+
+$$
+\frac{d I(t)}{d t} = \int^{t}_{0} \mu_{E}(a) \exp \left( - \int^{a}_{0} \mu_{E}(s) ds \right) \beta T(t - a) V(t - a) da - \delta I(t)
+$$
+
+よって、 @eq-HIV-PDE は分布遅れを持つ常微分方程式 @eq-HIV-ODE として定義できる。
+
+$$
+\begin{align}
+&\frac{d T(t)}{d t} = - \beta T(t) V(t) \\
+&\frac{d I(t)}{d t} = \beta \int^{t}_{0} f(a) T(t - a) V(t - a) da - \delta I(t) \\
+&\frac{d V(t)}{d t} = p I(t) - c V(t) \\
+\end{align}
+$$ {#eq-HIV-ODE}
+
+仮に、$f(a)$がデルタ関数の場合は固定遅れ$\tau$を持つ微分方程式 @eq-HIV-delta となり、指数分布の場合は @eq-EV71 になる。
+
+$$
+\begin{align}
+&\frac{d T(t)}{d t} = - \beta T(t) V(t) \\
+&\frac{d I(t)}{d t} = \beta T(t - \tau) V(t - \tau) - \delta I(t) \\
+&\frac{d V(t)}{d t} = p I(t) - c V(t) \\
+\end{align}
+$$ {#eq-HIV-delta}
+
+これらの動態は以下のようになる。
+
+{{< embed simulation.ipynb#fig-HIV-delta >}}
+
+
+# 参考
+- [ウイルス感染の数理モデルとシミュレーション](https://www.kyoritsu-pub.co.jp/book/b10044853.html)
+- [Overview of Julia's SciML/Build and run your first simulation with Julia's SciML](https://docs.sciml.ai/Overview/stable/getting_started/first_simulation/)
+- [Delay Differential Equations](https://docs.sciml.ai/DiffEqDocs/stable/tutorials/dde_example/)

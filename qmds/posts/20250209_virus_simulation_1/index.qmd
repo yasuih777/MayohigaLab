@@ -13,7 +13,7 @@ format:
   html:
     other-links:
       - text: ウイルス感染症の数理シミュレーション（応用）
-        href: ../draft_virus_simulation_2/index.html
+        href: ../20250315_virus_simulation_2/index.html
 ---
 
 ウイルス感染の疫学を正しく理解することは、適切な対応や施策を打つうえでとても重要である。アプローチとして、ウイルス動態を数式で表現し、そのシミュレーションやパラメータ推定を行うことがとても有効である。
@@ -56,7 +56,7 @@ digraph G {
 
 $$
 \begin{align}
-&\frac{\partial V(t)}{\partial t} = G V(t) \\
+&\frac{d V(t)}{d t} = G V(t) \\
 &V(t) = V(0) \exp(G t)
 \end{align}
 $$ {#eq-expinc}
@@ -70,7 +70,7 @@ $$ {#eq-expinc}
 
 $$
 \begin{align}
-&\frac{\partial V(t)}{\partial t} = -D V(t) \\
+&\frac{d V(t)}{d t} = -D V(t) \\
 &V(t) = V(0) \exp(-D t)
 \end{align}
 $$ {#eq-expdec}
@@ -140,7 +140,7 @@ $$
 
 $$
 \begin{align}
-&\frac{\partial V(t)}{\partial t} = G V(t) \left(1 - \frac{V(t)}{K_{V}} \right) \\
+&\frac{d V(t)}{d t} = G V(t) \left(1 - \frac{V(t)}{K_{V}} \right) \\
 &V(t) = \frac{V(0) K_{V} \exp(G t)}{K_{V} - V(0) + V(0) \exp(G t)}
 \end{align}
 $$ {#eq-logit}
@@ -190,8 +190,8 @@ digraph G {
 
 $$
 \begin{align}
-&\frac{\partial I(t)}{\partial t} = \beta T(0) V(t) - \delta I(t) \\
-&\frac{\partial V(t)}{\partial t} = p I(t) - c V(t)
+&\frac{d I(t)}{d t} = \beta T(0) V(t) - \delta I(t) \\
+&\frac{d V(t)}{d t} = p I(t) - c V(t)
 \end{align}
 $$ {#eq-liner-simultaneous}
 
@@ -231,7 +231,7 @@ $$ {#eq-liner-simultaneous-solution}
 さらに、準定常状態$0 \simeq p I(t) - c V(t) \Rightarrow V(t) = p I(t) / c$においては、$\theta_{1} = p \beta T(0) / c - \delta$であり、以下のように変形できる。
 
 $$
-\frac{\partial V(t)}{\partial t} = \left( \frac{p \beta T(0)}{c} - \delta \right) V(t) \Rightarrow \frac{\partial V(t)}{\partial t} = M V(t)
+\frac{d V(t)}{d t} = \left( \frac{p \beta T(0)}{c} - \delta \right) V(t) \Rightarrow \frac{d V(t)}{d t} = M V(t)
 $$
 
 これは、@eq-expinc 、@eq-expdec である。このようにモデルを単純化することによって、多くの場合解釈性の高い考察を得ることができる。
@@ -283,9 +283,9 @@ digraph G {
 
 $$
 \begin{align}
-&\frac{\partial T(t)}{\partial t} = \lambda - d T(t) - \beta T(t) V(t) \\
-&\frac{\partial I(t)}{\partial t} = \beta T(t) V(t) - \delta I(t) \\
-&\frac{\partial V(t)}{\partial t} = p I(t) - c V(t)
+&\frac{d T(t)}{d t} = \lambda - d T(t) - \beta T(t) V(t) \\
+&\frac{d I(t)}{d t} = \beta T(t) V(t) - \delta I(t) \\
+&\frac{d V(t)}{d t} = p I(t) - c V(t)
 \end{align}
 $$ {#eq-non-liner-simultaneous}
 
