@@ -25,7 +25,11 @@ website:
       - qmds/posts.qmd
       - qmds/about.qmd
       - qmds/contact.qmd
-    tools:
+    right:
+      - icon: twitter-x
+        href: https://x.com/like_biostat
+      - icon: linkedin
+        href: https://www.linkedin.com/in/yuheiyasui777/
       - icon: github
         menu:
           - text: Source code
