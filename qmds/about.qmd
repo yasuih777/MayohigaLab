@@ -4,6 +4,16 @@ date: 01-26-2025
 about:
   template: solana
   image: ../images/profile.png
+  links:
+    - icon: twitter-x
+      text: X(旧Twitter)
+      href: https://x.com/like_biostat
+    - icon: linkedin
+      text: Linkedin
+      href: https://www.linkedin.com/in/yuheiyasui777/
+    - icon: github
+      text: Github
+      href: https://github.com/yasuih777
 ---
 
 生物統計学と遺伝統計学を頑張りたい人。R&D寄りのデータサイエンティスト。
