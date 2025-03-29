@@ -179,7 +179,7 @@
     "href": "qmds/posts/20250303_compatibility_interval/theory.html",
     "title": "Compatibility intervalについて: 補足資料",
     "section": "",
-    "text": "- renv activated -- please restart the R session.\n\n\n\nlibrary(\"ggplot2\")\nlibrary(\"gridExtra\")\n\nset.seed(42)\n\n\n二項検定のP値関数\n\nalpha &lt;- 0.05\n\nx &lt;- (0:100) / 100\n\ny1 &lt;- sapply(x, function(t) binom.test(25, 50, t)$p.value)\nlh1 &lt;- x[which.max(y1)]\ncl1 &lt;- uniroot(function(t) binom.test(25, 50, t)$p.value - alpha, c(0.0, 0.5))$root\ncu1 &lt;- uniroot(function(t) binom.test(25, 50, t)$p.value - alpha, c(0.5, 1.0))$root\n\ng1 &lt;- ggplot(mapping=aes(x=x, y=y1)) +\n  geom_line() +\n  geom_line(mapping=aes(x=c(cl1, cu1), y=c(alpha, alpha)), color=\"red\", linewidth=2) +\n  geom_point(mapping=aes(x=c(lh1), y=c(max(y1))), color=\"red\", size=2.5) +\n  geom_hline(yintercept=alpha, linetype=\"dashed\") +\n  geom_vline(xintercept=cl1, linetype=\"dashed\") +\n  geom_vline(xintercept=cu1, linetype=\"dashed\") +\n  labs(\n    title=\"N=50, success=25\",\n    x=\"theta\",\n    y=\"P-value\",\n  )\n\ny2 &lt;- sapply(x, function(t) binom.test(50, 100, t)$p.value)\nlh2 &lt;- x[which.max(y2)]\ncl2 &lt;- uniroot(function(t) binom.test(50, 100, t)$p.value - alpha, c(0.0, 0.5))$root\ncu2 &lt;- uniroot(function(t) binom.test(50, 100, t)$p.value - alpha, c(0.5, 1.0))$root\n\ng2 &lt;- ggplot(mapping=aes(x=x, y=y2)) +\n  geom_line() +\n  geom_line(mapping=aes(x=c(cl2, cu2), y=c(alpha, alpha)), color=\"red\", linewidth=2) +\n  geom_point(mapping=aes(x=c(lh2), y=c(max(y2))), color=\"red\", size=2.5) +\n  geom_hline(yintercept=alpha, linetype=\"dashed\") +\n  geom_vline(xintercept=cl2, linetype=\"dashed\") +\n  geom_vline(xintercept=cu2, linetype=\"dashed\") +\n  labs(\n    title=\"N=100, success=50\",\n    x=\"theta\",\n    y=\"P-value\",\n  )\n\ngrid.arrange(g1, g2)\n\n\n\n\n\n\n\nFigure 1: 黒線はP値関数、赤線は95%信頼区間、赤点は最大尤度\n\n\n\n\n二項検定のP値関数\n\n\nprint(c(cl1, cu1, lh1))\nprint(c(cl2, cu2, lh2))\n\n[1] 0.3588326 0.6411674 0.5000000\n[1] 0.3996556 0.6003444 0.5000000\n\n\n\n\n\n\nReuseCC BY 4.0"
+    "text": "library(\"ggplot2\")\nlibrary(\"gridExtra\")\n\nset.seed(42)\n\n\n二項検定のP値関数\n\nalpha &lt;- 0.05\n\nx &lt;- (0:100) / 100\n\ny1 &lt;- sapply(x, function(t) binom.test(25, 50, t)$p.value)\nlh1 &lt;- x[which.max(y1)]\ncl1 &lt;- uniroot(function(t) binom.test(25, 50, t)$p.value - alpha, c(0.0, 0.5))$root\ncu1 &lt;- uniroot(function(t) binom.test(25, 50, t)$p.value - alpha, c(0.5, 1.0))$root\n\ng1 &lt;- ggplot(mapping=aes(x=x, y=y1)) +\n  geom_line() +\n  geom_line(mapping=aes(x=c(cl1, cu1), y=c(alpha, alpha)), color=\"red\", linewidth=2) +\n  geom_point(mapping=aes(x=c(lh1), y=c(max(y1))), color=\"red\", size=2.5) +\n  geom_hline(yintercept=alpha, linetype=\"dashed\") +\n  geom_vline(xintercept=cl1, linetype=\"dashed\") +\n  geom_vline(xintercept=cu1, linetype=\"dashed\") +\n  labs(\n    title=\"N=50, success=25\",\n    x=\"theta\",\n    y=\"P-value\",\n  )\n\ny2 &lt;- sapply(x, function(t) binom.test(50, 100, t)$p.value)\nlh2 &lt;- x[which.max(y2)]\ncl2 &lt;- uniroot(function(t) binom.test(50, 100, t)$p.value - alpha, c(0.0, 0.5))$root\ncu2 &lt;- uniroot(function(t) binom.test(50, 100, t)$p.value - alpha, c(0.5, 1.0))$root\n\ng2 &lt;- ggplot(mapping=aes(x=x, y=y2)) +\n  geom_line() +\n  geom_line(mapping=aes(x=c(cl2, cu2), y=c(alpha, alpha)), color=\"red\", linewidth=2) +\n  geom_point(mapping=aes(x=c(lh2), y=c(max(y2))), color=\"red\", size=2.5) +\n  geom_hline(yintercept=alpha, linetype=\"dashed\") +\n  geom_vline(xintercept=cl2, linetype=\"dashed\") +\n  geom_vline(xintercept=cu2, linetype=\"dashed\") +\n  labs(\n    title=\"N=100, success=50\",\n    x=\"theta\",\n    y=\"P-value\",\n  )\n\ngrid.arrange(g1, g2)\n\n\n\n\n\n\n\nFigure 1: 黒線はP値関数、赤線は95%信頼区間、赤点は最大尤度\n\n\n\n\n二項検定のP値関数\n\n\nprint(c(cl1, cu1, lh1))\nprint(c(cl2, cu2, lh2))\n\n[1] 0.3588326 0.6411674 0.5000000\n[1] 0.3996556 0.6003444 0.5000000\n\n\n\n\n\n\nReuseCC BY 4.0"
   },
   {
     "objectID": "qmds/about.html",
@@ -187,5 +187,19 @@
     "title": "管理者について",
     "section": "",
     "text": "生物統計学と遺伝統計学を頑張りたい人。R&D寄りのデータサイエンティスト。\n\n経歴\n\n熊本県で生まれ育つ\n国立大学の数学科を卒業\n\n解析学(微分積分学)を中心に数学理論を学ぶ\n\n国立大学院の生命科学専攻を修了\n\nWetな手法でエピジェネティクスと初期発生に関する研究を行う\n定量化の方法としては画像解析系の技術を学ぶ\n\n受託分析会社でデータサイエンティストとして勤務\n\nデータ利活用を目的としたコンサルテーションを担当\nBIエンジニアリング, AIエンジニアリング, データ基盤作成, データ分析業を幅広く学ぶ\nプロジェクトリーダーを経験\n\n医療系ベンチャー企業のAIエンジニアとして勤務 ← Now\n\n医療機器に組み込む疾患予測モデルの構築\n社内データ基盤の整備\n臨床研究におけるデータ解析を担当\n\n\n\n\n\nReuseCC BY 4.0"
+  },
+  {
+    "objectID": "qmds/posts/draft_maltico_regression/experiment.html",
+    "href": "qmds/posts/draft_maltico_regression/experiment.html",
+    "title": "Non title",
+    "section": "",
+    "text": "ReuseCC BY 4.0"
+  },
+  {
+    "objectID": "qmds/posts/draft_maltico_regression/index.html",
+    "href": "qmds/posts/draft_maltico_regression/index.html",
+    "title": "多重共線性の影響を色々確認してみる",
+    "section": "",
+    "text": "ReuseCC BY 4.0"
   }
 ]
