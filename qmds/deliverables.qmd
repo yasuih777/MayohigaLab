@@ -1,0 +1,20 @@
+---
+title: 成果物
+date: 04-03-2025
+---
+
+# Tableau
+
+::: {.panel-tabset}
+
+## Apple Watch Health Care Dinamics
+
+ダッシュボードは[こちら](https://public.tableau.com/views/AppleWatchHealthCareDinamics/Overview?:language=ja-JP&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+
+Apple Watchが手元にあったのでログデータを書き出して、ダッシュボードを作った。生データはちょっとクセのある感じだったので、Pythonでの前処理を入れた。（コードは未公開）
+
+1枚目は見た目を重視して、2~4枚目とどんどん粒度を細かくしていく構造にした。
+
+改めて見ると、めちゃくちゃ不摂生w。運動を頑張ろうと心に誓った。
+
+:::
