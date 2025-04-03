@@ -23,6 +23,7 @@ website:
     left: 
       - qmds/index.qmd
       - qmds/posts.qmd
+      - qmds/deliverables.qmd
       - qmds/about.qmd
       - qmds/contact.qmd
     right:

@@ -334,7 +334,7 @@ $$
 \end{align}
 $$ {#eq-HIV-delta}
 
-これらの動態は以下のようになる。
+これらの動態は以下のようになる。感染細胞の動態について、最初では細胞数が減少する時間遅れが観測できた。
 
 {{< embed simulation.ipynb#fig-HIV-delta >}}
 

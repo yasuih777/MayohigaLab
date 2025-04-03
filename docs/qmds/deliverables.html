@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-02-02">
+<meta name="dcterms.date" content="2025-04-03">
 
-<title>QuartoでWebページを作る際のDocker構成について – マヨヒガ研究所</title>
+<title>成果物 – マヨヒガ研究所</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,62 +21,28 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<link href="../../../images/profile.png" rel="icon" type="image/png">
-<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-fb112cd685da295e1e053fad35b30292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/profile.png" rel="icon" type="image/png">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fb112cd685da295e1e053fad35b30292.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -133,7 +99,7 @@ cookieconsent.run({
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -143,10 +109,10 @@ cookieconsent.run({
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../../images/profile.png" alt="" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/profile.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">マヨヒガ研究所</span>
     </a>
   </div>
@@ -157,23 +123,23 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../qmds/index.html"> 
+    <a class="nav-link" href="../qmds/index.html"> 
 <span class="menu-text">ホーム</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../qmds/posts.html"> 
+    <a class="nav-link" href="../qmds/posts.html"> 
 <span class="menu-text">記事</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../qmds/deliverables.html"> 
+    <a class="nav-link active" href="../qmds/deliverables.html" aria-current="page"> 
 <span class="menu-text">成果物</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../qmds/about.html"> 
+    <a class="nav-link" href="../qmds/about.html"> 
 <span class="menu-text">管理者について</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../qmds/contact.html"> 
+    <a class="nav-link" href="../qmds/contact.html"> 
 <span class="menu-text">お問い合わせ</span></a>
   </li>  
 </ul>
@@ -221,12 +187,7 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#概要" id="toc-概要" class="nav-link active" data-scroll-target="#概要">概要</a></li>
-  <li><a href="#ツール" id="toc-ツール" class="nav-link" data-scroll-target="#ツール">ツール</a></li>
-  <li><a href="#dockerfileの構成" id="toc-dockerfileの構成" class="nav-link" data-scroll-target="#dockerfileの構成">Dockerfileの構成</a></li>
-  <li><a href="#docker-composeの構成" id="toc-docker-composeの構成" class="nav-link" data-scroll-target="#docker-composeの構成">docker-composeの構成</a></li>
-  <li><a href="#jupyterlabでの開発" id="toc-jupyterlabでの開発" class="nav-link" data-scroll-target="#jupyterlabでの開発">JupyterLabでの開発</a></li>
-  <li><a href="#参考" id="toc-参考" class="nav-link" data-scroll-target="#参考">参考</a></li>
+  <li><a href="#tableau" id="toc-tableau" class="nav-link active" data-scroll-target="#tableau">Tableau</a></li>
   </ul>
 </nav>
     </div>
@@ -235,15 +196,8 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">QuartoでWebページを作る際のDocker構成について</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">Quarto</div>
-    <div class="quarto-category">Docker</div>
-    <div class="quarto-category">R</div>
-    <div class="quarto-category">Python</div>
-    <div class="quarto-category">Julia</div>
-  </div>
-  </div>
+<h1 class="title">成果物</h1>
+</div>
 
 
 
@@ -253,7 +207,7 @@ cookieconsent.run({
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025-02-02</p>
+      <p class="date">2025-04-03</p>
     </div>
   </div>
   
@@ -266,187 +220,24 @@ cookieconsent.run({
     
   </div>
   
-<div>
-  <div class="abstract">
-    <div class="block-title">Abstract</div>
-    Quarto Webを構成するDockerの構築方法
-  </div>
-</div>
 
 
 </header>
 
 
-<section id="概要" class="level1">
-<h1>概要</h1>
-<p><del>本ブログでは実行環境をDockerで作成している。コードは↓のGithubリンクから参照できる。</del></p>
-<p>結局、RをQuarto内で認識させることができなかったためローカルで実行するようにした。が、忘備録として残しておく。</p>
-</section>
-<section id="ツール" class="level1">
-<h1>ツール</h1>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
+<section id="tableau" class="level1">
+<h1>Tableau</h1>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Apple Watch Health Care Dinamics</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>ダッシュボードは<a href="https://public.tableau.com/views/AppleWatchHealthCareDinamics/Overview?:language=ja-JP&amp;:sid=&amp;:redirect=auth&amp;:display_count=n&amp;:origin=viz_share_link">こちら</a></p>
+<p>Apple Watchが手元にあったのでログデータを書き出して、ダッシュボードを作った。生データはちょっとクセのある感じだったので、Pythonでの前処理を入れた。（コードは未公開）</p>
+<p>1枚目は見た目を重視して、2~4枚目とどんどん粒度を細かくしていく構造にした。</p>
+<p>改めて見ると、めちゃくちゃ不摂生w。運動を頑張ろうと心に誓った。</p>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>前もってDocker CLIをインストールしておく。<br>
-※ローカルのターミナル上で<code>docker</code>、<code>docker compose</code>が動作すれば良い。</p>
 </div>
-</div>
-<p>Quarto websiteを作る上で導入したツールは以下の4つ。</p>
-<ul>
-<li>Quarto</li>
-<li>+αでJupyterを動かす場合
-<ul>
-<li>R</li>
-<li>Python</li>
-<li>Julia</li>
-</ul></li>
-</ul>
-<p>R, Python, Juliaの仮想環境は、公式がサポートしているものを使う。</p>
-<ul>
-<li>R: renv</li>
-<li>Python: venv
-<ul>
-<li>Poetryを併用して仮想環境を作成する</li>
-</ul></li>
-<li>Julia: Pkg</li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>データサイエンス用のプラットフォームであるCondaもQuarto上でサポートされているが、複数の言語を混ぜて使う際に激しめのコンフリクトを起こした。なので、今回はそれぞれの言語専用の仕組みを使用した。</p>
-</div>
-</div>
-</section>
-<section id="dockerfileの構成" class="level1">
-<h1>Dockerfileの構成</h1>
-<p>ベースイメージは<code>ubuntu</code>を使用する</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">FROM</span> ubuntu:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>PythonやRを一気にビルドするベースイメージとして、<code>jupyter/datascience-notebook</code>がある。 実際に試してみたが、Quartoと併用するときに上手く扱えなかった。そこで、まっさらな<code>ubuntu</code>イメージから愚直にインストールしていく構成をとった。</p>
-</div>
-</div>
-<p>renv, pyproject.toml, Project.tomlの構成をDocker内にコピーする。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">COPY</span> . /web_source/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>メモリの節約においては仮想環境用ファイル以外はコピーしなくてよいが、面倒なのでやっていない。今後のTODOとする。</p>
-</div>
-</div>
-<p>ubuntu側で必要なツールをインストールする。 同時にRとPython(pip)をインストールする。</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">RUN</span> <span class="ex">apt</span> update <span class="dt">\</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>    <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> /web_source <span class="dt">\</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>    <span class="kw">&amp;&amp;</span> <span class="ex">apt</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>        curl <span class="dt">\</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>        gdebi <span class="dt">\</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>        build-essential <span class="dt">\</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>        r-base <span class="dt">\</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>        pip <span class="dt">\</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span> <span class="dt">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Rの仮想環境ビルドのため、renvをインストールする。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># RUN</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>   &amp;&amp; Rscript -e <span class="st">'install.packages("renv", repos="https://cloud.r-project.org")'</span> <span class="op">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Pythonの仮想環境ビルドのため、Poetryをインストールする。</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># RUN</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>    &amp;&amp; pip install poetry --break-system-packages <span class="op">\</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    &amp;&amp; poetry config --local virtualenvs.in-project true <span class="op">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Juliaをインストールする。 加えて、仮想環境を再現する。</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># RUN</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>    &amp;&amp; curl -fsSL https://install.julialang.org | sh -s -- -y <span class="op">\</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>    &amp;&amp; /root/.juliaup/bin/julia --project=@. -e <span class="st">'using Pkg; Pkg.instantiate(); Pkg.precompile()'</span> <span class="op">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Juliaダウンロード直後は<code>julia</code>コマンドが動かなかった(多分PATHの問題)ため、ファイルから実行している。</p>
-</div>
-</div>
-<p>Quartoをインストールする。<br>
-※インストーラーは最後に削除する。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># RUN</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>    &amp;&amp; curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb <span class="op">\</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>    &amp;&amp; gdebi --non-interactive quarto-linux-amd64.deb <span class="op">\</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>    &amp;&amp; rm -rf quarto-linux-amd64.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>この構成のDockerfileをbuildすることで、必要な環境が全て入ったDocker containerを作成できる。</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Python, Rのパッケージはローカルのものと紐づける設定をしているためbuild時点では環境を再現できていない始めて入った後にpoetry, renvを利用して環境を再現すると良い</p>
-</div>
-</div>
-</section>
-<section id="docker-composeの構成" class="level1">
-<h1>docker-composeの構成</h1>
-<p>特別な工夫はしておらず、Dockerに入ったときに作業中のディレクトリ(<code>web_source</code>)とローカルのディレクトリ構成をリンクさせる設定にしている。</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource docker-compose.yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">services</span><span class="kw">:</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="at">  </span><span class="fu">web-source</span><span class="kw">:</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span><span class="at"> .</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="at">    </span><span class="fu">restart</span><span class="kw">:</span><span class="at"> always</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="at">    </span><span class="fu">ports</span><span class="kw">:</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="st">"8888:8888"</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./:/web_source</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="at">    </span><span class="fu">working_dir</span><span class="kw">:</span><span class="at"> /web_source</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">      # /bin/bash </span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="at">      /bin/bash --login</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="jupyterlabでの開発" class="level1">
-<h1>JupyterLabでの開発</h1>
-<p>Dockerを立ち上げる際にportを開放することで、JupyterLabでの開発ができるようにしてある。</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href="#cb9-1"></a>docker compose run -p 8888:8888 --rm web-source</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>これによって、Docker内で起動したローカルホストが、ローカルPCで開けるようになっている。</p>
-</section>
-<section id="参考" class="level1">
-<h1>参考</h1>
-<ul>
-<li><a href="https://qiita.com/shimanuki-yu/items/5c5aaee333ed86ea07cb">M2のMacにDockerとDocker Composeをインストールする</a></li>
-<li><a href="https://zenn.dev/forcia_tech/articles/20210716_docker_best_practice">社内のDockerfileのベストプラクティスを公開します</a></li>
-<li><a href="https://qiita.com/gon0821/items/77369def082745d19c38">Docker Composeについてざっくり理解する【概要 / ymlファイル書き方 / コマンド操作】</a></li>
-</ul>
 
 
 </section>
@@ -933,5 +724,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
